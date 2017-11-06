@@ -1,0 +1,112 @@
+#tabUl .glyphicon-remove{display: none;color: red;}
+#tabUl .glyphicon-remove:hover{cursor: pointer;color: #ff7701}
+#tabUl>li[class='']>a{cursor: pointer;border: 1px solid #ddd;border-radius: 4px 4px 0 0;}
+#tabUl>li[class='active']>a{background-color: #428bca;color: white;}
+#tabUl>li:hover >a>i {display: block;}
+
+/*header css*/
+header .statisticInfo{
+    height: 45px;
+    margin-top: 26px;
+}
+header .statisticInfo p{
+    color: white;
+    font-size: 23px;
+}
+header .statisticInfo p:hover{
+    color: red;
+    cursor: pointer;
+}
+
+/*toTop css*/
+.totop {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    z-index: 104400;
+    background: #0993d3 !important;
+}
+.totop a, .totop a:visited{
+    display: block;
+    width: 60px;
+    height: 90px;
+    color: #fff;
+    font-size: 37px;
+    text-align: center;
+    line-height: 30px;
+}
+.totop a:hover {
+    color: #eee;
+    text-decoration: none;
+}
+
+/*right css*/
+#testarea i{color: #428bca}
+#testarea i:hover{cursor: pointer;color: #63B8FF}
+@-webkit-keyframes bounce-up {
+    25% {-webkit-transform: translateY(5px);}
+    50%, 100% {-webkit-transform: translateY(0);}
+    75% {-webkit-transform: translateY(-5px);}
+}
+@keyframes bounce-up {
+    25% {transform: translateY(5px);}
+    50%, 100% {transform: translateY(0);}
+    75% {transform: translateY(-5px);}
+}
+#testarea .showFreeSetting{-webkit-animation: bounce-up 0.5s linear infinite;animation: bounce-up 0.5s linear infinite;}
+@-webkit-keyframes bounce-left {
+    25% {-webkit-transform: translateX(5px);}
+    50%, 100% {-webkit-transform: translateX(0);}
+    75% {-webkit-transform: translateX(-5px);}
+}
+@keyframes bounce-left {
+    25% {transform: translateX(5px);}
+    50%, 100% {transform: translateX(0);}
+    75% {transform: translateX(-5px);}
+}
+#testarea .leftmock{-webkit-animation: bounce-left 0.5s linear infinite;animation: bounce-left 0.5s linear infinite;}
+
+/*resptree*/
+.menuTree
+{
+    margin-left: 0px;
+}
+.menuTree div
+{
+    padding-left: 30px;
+    overflow-x:hidden;word-break:break-all;white-space:normal;
+}
+.menuTree div ul
+{
+    display: none;
+    height: auto;
+    margin-left: -45px;
+}
+.menuTree span
+{
+    display: block;
+    /*height: 25px;*/
+    line-height: 25px;
+    padding-left: 5px;
+    margin: 1px 0;
+    cursor: pointer;
+}
+.menuTree span:hover
+{
+    background-color: black;
+    color: white;
+    font-weight: bolder;
+}
+.menuTree a
+{
+    color: #333;
+    text-decoration: none;
+}
+.menuTree a:hover
+ {
+     color: #06F;
+ }
+.menuTree .messkey
+{
+    color: red;
+}

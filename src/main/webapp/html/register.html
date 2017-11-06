@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <!-- Title and other stuffs -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="">
+    <!-- Stylesheets -->
+    <link rel="shortcut icon" type="image/x-icon" href="../img/member/member.png">
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/adminlte/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../lib/adminlte/css/ionicons.min.css">
+    <link rel="stylesheet" href="../css/future.css">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+
+<!-- Form area -->
+<div class="admin-form">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Widget starts -->
+                <div class="widget worange">
+                    <!-- Widget head -->
+                    <div class="widget-head">
+                        <i class="fa fa-user fa-fw"></i> REGISTER
+                    </div>
+
+                    <div class="widget-content">
+                        <div class="padd">
+                            <form class="form-horizontal" id="registerform">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3">真实姓名</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" name="trueName" placeholder="请输入真实姓名">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3">学院</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" name="college" placeholder="请输入学院">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3">专业</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" name="major" placeholder="请输入专业">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3">学号</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" name="sn" placeholder="请输入学号">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3">密码</label>
+                                    <div class="col-lg-9">
+                                        <input type="password" class="form-control" name="password" placeholder="请输入密码">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3">验证密码</label>
+                                    <div class="col-lg-9">
+                                        <input type="password" class="form-control" name="confirm_password" placeholder="请输入密码">
+                                    </div>
+                                </div>
+                                <!-- Remember me checkbox and sign in button -->
+                                <div class="form-group">
+                                    <!--<div class="col-lg-9 col-lg-offset-3">-->
+                                        <!--<div class="checkbox">-->
+                                            <!--<label>-->
+                                                <!--<input type="checkbox"> 记住帐号-->
+                                            <!--</label>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                </div>
+                                <div class="col-lg-9 col-lg-offset-2 tc">
+                                    <button type="submit" class="btn btn-danger">注册</button>
+                                    <button type="reset" class="btn btn-default">重置</button>
+                                </div>
+                                <br />
+                            </form>
+
+                        </div>
+                    </div>
+                    <div class="widget-foot">
+                        已注册帐号? <a href="../html/login.html">点击登入</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JS -->
+<script src="../lib/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="../lib/validate/jquery.validate.min.js"></script>
+<script src="../js/locale/zh.js"></script>
+<script src="../js/future.js"></script>
+<script src="../js/login/register.js"></script>
+</body>
+</html>

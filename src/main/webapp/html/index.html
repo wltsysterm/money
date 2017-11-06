@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>demo</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../img/logo.png">
+    <link rel="stylesheet" href="../lib/bootstrapsubmenu/css/bootstrap-submenu.css">
+    <link rel="stylesheet" href="../lib/bootstraptreeview/css/bootstrap-treeview.css">
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/adminlte/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../lib/adminlte/css/ionicons.min.css">
+    <link rel="stylesheet" href="../lib/adminlte/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="../lib/adminlte/css/_all-skins.min.css">
+    <link rel="stylesheet" href="../lib/adminlte/css/animate.min.css">
+    <link rel="stylesheet" href="../css/future.css">
+    <link rel="stylesheet" href="../css/bootstraplrcol.css">
+    <style>
+        #loading-mask {position: fixed;_position: absolute;left: 0;top: 0;width:100%;height:100%;z-index: 20000;background-color:#000;filter:alpha(Opacity = 50);-moz-opacity:0.8;opacity:0.8;}
+        #loading {position: absolute;left: 50%;top: 50%;padding: 2px;z-index: 20001;height: auto;}
+        #loading-msg {font: bold 14px arial, tahoma, sans-serif ;font-weight:bolder;line-height:35px;color:#fff;}
+    </style>
+    <style>
+    </style>
+</head>
+<body style="background-color: whitesmoke;">
+<div class="container w100p p0">
+    <!--header-->
+    <header class="col-lg-12 col-md-12 col-sm-12 col-xs-12 h100 p0" style="background-color: black;position: fixed;filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;z-index: 1000;">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-5 statisticInfo">
+            <p>
+                <span></span><i class="glyphicon glyphicon-menu-hamburger" title="新建接口"></i>
+            </p>
+        </div>
+        <div class="col-lg-8 col-md-6 col-sm-4 col-xs-2">
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-5">
+            <!--<button type="button" class="btn btn-warning" onclick="getIframeInfo()"></button>-->
+        </div>
+    </header>
+    <!--content-->
+    <section class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt100 p0">
+        <nav id="sidebar" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 p0">
+            <div id="treeview" class="w100p"></div>
+        </nav>
+        <article class="col-lg-10 col-md-10 col-sm-10 col-xs-10 column p0" id="content-article">
+            <ul class="nav nav-tabs" role="tablist" id="tabUl">
+            </ul>
+            <section class="tab-content" style="width:100%;height: 100%">
+                <div class="clearfix"></div>
+            </section>
+        </article>
+    </section>
+    <!--footer-->
+    <!-- Scroll to top -->
+    <span class="totop none" title="返回顶部"><a><i class="fa fa-caret-up fa-fw"></i></a></span>
+    <form id="mockform" class="" action="" method="post"></form>
+    <div id='loading_shade_div' style="display:none">
+        <div id ='loading-mask'></div>
+        <div id ='loading' style='vertical-align: bottom;position:fixed;margin-bottom:50px;'>
+            <img src ='../img/loading.gif'  width ='50'  height ='37' style ='margin-right:8px;float:left;vertical-align:bottom;'/>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span id ='loading-msg'></span>
+        </div>
+    </div>
+</div>
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../lib/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="../lib/validate/jquery.validate.min.js"></script>
+<script src="../js/locale/zh.js"></script>
+<script src="../js/future.js"></script>
+<script src="../lib/bootstrapsubmenu/js/bootstrap-submenu.js"></script>
+<script src="../lib/bootstraptreeview/js/bootstrap-treeview.js"></script>
+<script src="../js/bootstrap-closable-tab.js"></script>
+<script src="../js/messTree.js"></script>
+<script src="../js/index.js"></script>
+<script language="JavaScript" type="text/javascript">
+</script>
+<script>
+    $(window).resize(function() {
+        var data = getIframeInfo();
+        $("#"+data.iframeId).css('height',window.innerHeight - 127-5);
+        $("#content-article").css('height',window.innerHeight - 127);
+    });
+    $(function () {
+//        article模块窗口最大化
+        $("#content-article").css('height',window.innerHeight - 127);
+
+        var isClearCache = $("#testarea input[name=isClearCache]:checked").val();
+        if(isClearCache==1){$("#testarea>form")[0].reset();}
+
+//    点击回到头部
+        $(window).scroll(function(){
+            if ($(this).scrollTop()>300){
+                $('.totop').slideDown();
+            }else{
+                $('.totop').slideUp();
+            }
+        });
+        $('.totop a').click(function (e) {
+            e.preventDefault();
+            $('body,html').animate({scrollTop: 0}, 500);
+        });
+
+//        首页初始化
+        var item = {'id':'1','name':'首页','url':'../html/verifyUser.html','closable':false};
+        closableTab.addTab(item);
+//        initMenu();
+    });
+</script>
+</html>

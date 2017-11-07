@@ -1,4 +1,21 @@
 $(function () {
+    //    点击回到头部
+    $(window).scroll(function(){
+        if ($(this).scrollTop()>300)
+        {
+            $('.totop').slideDown();
+        }
+        else
+        {
+            $('.totop').slideUp();
+        }
+    });
+    $('.totop a').click(function (e) {
+        e.preventDefault();
+        $('body,html').animate({scrollTop: 0}, 500);
+    });
+//    点击回到头部--
+
     $("#IndexMainDiv .aside-nav").on("click","li",function () {
         var _this = $(this);
         _this.siblings().removeClass("current");

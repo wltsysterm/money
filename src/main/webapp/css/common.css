@@ -89,3 +89,25 @@
     top:40%;
     right: -12px;
 }
+
+/*toTop css*/
+.totop {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    z-index: 104400;
+    background: #0993d3 !important;
+}
+.totop a, .totop a:visited{
+    display: block;
+    width: 60px;
+    height: 90px;
+    color: #fff;
+    font-size: 37px;
+    text-align: center;
+    line-height: 30px;
+}
+.totop a:hover {
+    color: #eee;
+    text-decoration: none;
+}

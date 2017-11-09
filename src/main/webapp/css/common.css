@@ -108,6 +108,7 @@
     line-height: 30px;
 }
 .totop a:hover {
+    cursor: pointer;
     color: #eee;
     text-decoration: none;
 }

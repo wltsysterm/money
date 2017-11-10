@@ -1,0 +1,6 @@
+/*好看输入框样式*/
+.content{}
+.addbill-section{color: white;font-size: 18px;cursor: default;}
+.addbill-btn:hover{cursor: pointer;}
+.projectmgr-edit-span i{margin-left: 20px;}
+.projectmgr-edit-span i:hover{cursor: pointer;color:#f39c12;}

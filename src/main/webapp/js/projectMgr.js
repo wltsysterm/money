@@ -1,4 +1,13 @@
 $(function () {
+    bs.select("#billproject",[]);
+    $(".addbill-section").on("click",".addbill-btn",function () {
+        bs.submitForm({
+            id:"form",
+            isClear:true,
+            title:"新建项目",
+            width:400
+        });
+    })
     bs.table('#table', {
         // url: "/api/merchantTrade/queryTrade",
         // toolbar: '#toolbar',
@@ -31,22 +40,30 @@ $(function () {
             width: '150px',
             field: 'state',
             formatter: function (value, row, index) {
-                var html = "<button class='md-trigger' data-modal='modal-4' onclick='openModal("+index+");'>Newspaper</button>";
+                var html = "<span class='projectmgr-edit-span'><i title='修改' class='glyphicon glyphicon-pencil' onclick='openModal("+index+");'></i><i title='删除' class='glyphicon glyphicon-trash' onclick='delModal("+index+");'></i></span>";
                 return html;
             }
         }]
     });
 });
 
+
+function delModal(index){
+    var row = bs.tableRow("#table",index)
+    bs.alert({msg:"确定删除【"+JSON.stringify(row)+"】"},function () {
+        alert("del over");
+    })
+}
+
 function openModal(index){
     var row = bs.tableRow("#table",index)
-    $("#test .test").html(JSON.stringify(row));
     bs.submitForm({
         title:"test",
-        id:"test",
-        isClear:true
+        id:"form",
+        isClear:true,
+        width:400
     });
-    bs.resetDlgPosition("test");
+    // bs.resetDlgPosition("form");
 }
 window.parent.onscroll = function() {
     bs.resetDlgPositionByState("test");

@@ -6,24 +6,24 @@ var bs = {};
 /**
  * 调整高度
  */
-$(document).ready(function () {
-    var isExist = false;
-    $('head link').each(function(index,item){
-        if ($(item).attr('href').indexOf("animate")>0){
-            isExist = true;
-        }
-    });
-    if (!isExist){
-        $($('head')[0]).append('<link rel="stylesheet" href="../lib/adminlte/css/animate.min.css">');
-    }
-    $('body').find('.box').css('height',window.innerHeight - 10);
-});
+// $(document).ready(function () {
+//     var isExist = false;
+//     $('head link').each(function(index,item){
+//         if ($(item).attr('href').indexOf("animate")>0){
+//             isExist = true;
+//         }
+//     });
+//     if (!isExist){
+//         $($('head')[0]).append('<link rel="stylesheet" href="../lib/adminlte/css/animate.min.css">');
+//     }
+//     $('body').find('.box').css('height',window.innerHeight - 10);
+// });
 /**
  * 窗口调整
  */
-$(window).resize(function() {
-    $('body').find('.box').css('height',window.innerHeight - 10);
-});
+// $(window).resize(function() {
+//     $('body').find('.box').css('height',window.innerHeight - 10);
+// });
 
 /**
  * 自定义错误提示位置
@@ -538,8 +538,8 @@ bs.tableRow = function (id,index) {
 bs.openDialog= function (options,handler) {
     var defaultOptions = {
         title:"标题",
-        width:600,
-        height:300,
+        // width:600,
+        // height:300,
         cancelText:"取消",
         agreeText:"提交"
     };
@@ -551,7 +551,7 @@ bs.openDialog= function (options,handler) {
 
     //已经初始化显示
     if ($(dialogId).length>0){
-        $(dialogId).modal('show');
+        $(dialogId).modal({'show':true,backdrop: 'static'});
         return;
     }
 
@@ -571,9 +571,9 @@ bs.openDialog= function (options,handler) {
         defaultOptions.agreeText = '确定';
         html.push('<button type="button" class="btn btn-primary w200">'+defaultOptions.agreeText+'</button>');
     }else{
-        html.push('<div class="modal-footer">');
+        html.push('<div class="modal-footer tc">');
         html.push('<button type="button" class="btn btn-default" data-dismiss="modal">'+defaultOptions.cancelText+'</button>');
-        html.push('<button type="button" class="btn btn-primary">'+defaultOptions.agreeText+'</button>');
+        html.push('<button type="button" class="btn btn-success agree-btn">'+defaultOptions.agreeText+'</button>');
     }
     html.push('</div>');
     html.push('</div></div></div>');
@@ -584,7 +584,7 @@ bs.openDialog= function (options,handler) {
         $(dialogId+' .modal-body').append($(nodeId));
     }
 
-    $(dialogId+' .modal-footer .btn-primary').on('click',function () {
+    $(dialogId+' .modal-footer .agree-btn').on('click',function () {
         if (options.single){
             $(dialogId).modal('hide');
         }else{
@@ -594,9 +594,25 @@ bs.openDialog= function (options,handler) {
         }
     });
 
-    $(dialogId).modal('show');
+    $(dialogId).modal({'show':true,backdrop: 'static'});
 
 };
+bs.resetDlgPosition=function (id) {
+    $("#"+id+"dlg>.modal-dialog").css({"top":10+$(window.parent.document).scrollTop()});
+}
+bs.resetDlgPositionByState=function (id) {
+    if($("#"+id+"dlg").css("display")!="none"){
+        bs.resetDlgPosition(id);
+    }
+}
+/**
+ * 重置当前的dlg的title属性
+ * @param id
+ * @param title
+ */
+bs.resetDlgTitle=function (id,title) {
+    $("#"+id+"dlg h4[class=modal-title]").text(title);
+}
 /**
  * from 弹窗
  * @param options dialog 参数:

@@ -1,4 +1,18 @@
 $(function () {
+    bs.select("#billproject",[]);
+    $(".addbill-section").on("click",".addbill-btn",function () {
+        bs.alert({
+            msg:"谨慎新建账单，一经新建不能撤销",
+        },  function(){
+            bs.submitForm({
+                id:"form",
+                isClear:true,
+                title:"新建账单",
+                width:400
+            });
+            }
+            );
+    })
     bs.table('#table', {
         // url: "/api/merchantTrade/queryTrade",
         // toolbar: '#toolbar',
@@ -26,14 +40,6 @@ $(function () {
             title: '交易状态',
             align: 'center',
             width: '150px',
-        }, {
-            title: '操作',
-            width: '150px',
-            field: 'state',
-            formatter: function (value, row, index) {
-                var html = "<button class='md-trigger' data-modal='modal-4' onclick='openModal("+index+");'>Newspaper</button>";
-                return html;
-            }
         }]
     });
 });

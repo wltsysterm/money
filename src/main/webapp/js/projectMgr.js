@@ -6,41 +6,28 @@ $(function () {
             isClear:true,
             title:"新建项目",
             width:400
+        },function (result) {
+            bs.tableRefresh('#table');
+            bs.toast("info","添加成功")
         });
     })
     bs.table('#table', {
-        // url: "/api/merchantTrade/queryTrade",
-        // toolbar: '#toolbar',
+        url: "/future/money/selectProjectByPage",
         pagination: true,
-        // params: function () {
-        //     return $("#queryTradeForm").serializeObject();
-        // },
-        // pageSize: 5,
-        // pageList: [5, 10],
         height:"100%",
-        data:data,
-        rows:50,
         columns: [{
-            field: 'college',
-            title: '交易状态',
+            field: 'projectName',
+            title: '项目名',
             align: 'center',
-            width: '150px',
         }, {
-            field: 'sn',
-            title: '交易状态',
+            field: 'projectPrice',
+            title: '收费标准(￥)',
             align: 'center',
-            width: '150px',
-        }, {
-            field: 'trueName',
-            title: '交易状态',
-            align: 'center',
-            width: '150px',
         }, {
             title: '操作',
-            width: '150px',
             field: 'state',
             formatter: function (value, row, index) {
-                var html = "<span class='projectmgr-edit-span'><i title='修改' class='glyphicon glyphicon-pencil' onclick='openModal("+index+");'></i><i title='删除' class='glyphicon glyphicon-trash' onclick='delModal("+index+");'></i></span>";
+                var html = "<span class='projectmgr-edit-span'><i title='修改' class='glyphicon glyphicon-pencil' onclick='update("+index+");'></i><i title='删除' class='glyphicon glyphicon-trash' onclick='delModal("+index+");'></i></span>";
                 return html;
             }
         }]
@@ -50,32 +37,37 @@ $(function () {
 
 function delModal(index){
     var row = bs.tableRow("#table",index)
-    bs.alert({msg:"确定删除【"+JSON.stringify(row)+"】"},function () {
-        alert("del over");
+    bs.alert({msg:"确定删除【"+row.projectName+"】",cancelText:"取消"},function () {
+        bs.ajax({
+            url:"/future/money/deleteProject",
+            data:{id:row.id},
+            success:function (data) {
+                bs.tableRefresh("#table");
+                bs.toast("info","删除成功")
+            }
+        }
+        );
     })
 }
 
-function openModal(index){
-    var row = bs.tableRow("#table",index)
+function update(index){
+    var row = bs.tableRow("#table",index);
+    $("#updateform input[name=projectName]").val(row.projectName);
+    $("#updateform input[name=projectPrice]").val(row.projectPrice);
+    $("#updateform input[name=id]").val(row.id);
     bs.submitForm({
-        title:"test",
-        id:"form",
-        isClear:true,
+        title:"修改项目",
+        id:"updateform",
+        // isClear:true,
         width:400
+    },function (result) {
+        bs.tableRefresh('#table');
+        bs.toast("info","修改成功")
     });
-    // bs.resetDlgPosition("form");
 }
 window.parent.onscroll = function() {
-    bs.resetDlgPositionByState("test");
-}
-// window.onscroll = function() {
-//     console.log("窗口发生改变了哟！");
-// }
-// $(window).resize(function() {
-//     $('body').find('.box').css('height',window.innerHeight - 10);
-// });
-window.onresize = function(){
-
+    bs.resetDlgPositionByState("updateform");
+    bs.resetDlgPositionByState("form");
 }
 function resizeIframe(iframe) {
     if (iframe) {

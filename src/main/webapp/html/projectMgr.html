@@ -14,14 +14,13 @@
     <link rel="stylesheet" href="../lib/adminlte/css/_all-skins.min.css">
     <link rel="stylesheet" href="../lib/adminlte/css/animate.min.css">
     <link rel="stylesheet" href="../lib/select2/css/select2.min.css">
-
     <link rel="stylesheet" href="../css/future.css">
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/projectMgr.css">
     <style>
     </style>
 </head>
-<body style="background-color: #FCFCFC;" >
+<body  class="body">
 <div class="p0 m0 w100p">
     <section class="mt10 addbill-section">
         <div class="alert alert-warning">
@@ -35,36 +34,47 @@
     </section>
 </div>
 <div class="none">
-    <form class="form-horizontal" id="form" action="#">
+    <form class="form-horizontal" id="form" action="/future/money/addProject">
         <fieldset>
             <div class="form-group">
-                <label class="col-sm-3 control-label">接口名</label>
+                <label class="col-sm-3 control-label">项目名</label>
                 <div class="col-sm-9">
-                    <input class="form-control"/>
+                    <input class="form-control" name="projectName"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">接口名(￥)</label>
+                <label class="col-sm-3 control-label">收费标准(￥)</label>
                 <div class="col-sm-9">
-                    <input class="form-control"/>
+                    <input class="form-control" name="projectPrice"/>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="none">
+    <form class="form-horizontal" id="updateform" action="/future/money/updateProject">
+        <fieldset>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">项目名</label>
+                <div class="col-sm-9">
+                    <input class="form-control" name="projectName"/>
+                    <input type="hidden" name="id"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">接口名</label>
+                <label class="col-sm-3 control-label">收费标准(￥)</label>
                 <div class="col-sm-9">
-                    <textarea class="form-control"></textarea>
+                    <input class="form-control" name="projectPrice"/>
                 </div>
             </div>
         </fieldset>
     </form>
 </div>
 </body>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="../lib/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="../lib/validate/jquery.validate.min.js"></script>
-<script src="../js/future.js"></script>
+<script src="../js/util/future.js"></script>
 <script src="../lib/bootstrapsubmenu/js/bootstrap-submenu.js"></script>
 <script src="../lib/bootstraptreeview/js/bootstrap-treeview.js"></script>
 <script src="../lib/bootstraptable/js/bootstrap-table.min.js"></script>
@@ -72,7 +82,6 @@
 <script src="../js/locale/zh.js"></script>
 <script src="../js/messTree.js"></script>
 <script src="../js/projectMgr.js"></script>
-<script src="../js/common.js"></script>
 <script>
 </script>
 </html>

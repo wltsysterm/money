@@ -17,50 +17,28 @@
 
     <link rel="stylesheet" href="../css/future.css">
     <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/settleBill.css">
+    <link rel="stylesheet" href="../css/echarAnalyse.css">
     <style>
     </style>
 </head>
-<body style="background-color: #FCFCFC;" >
+<body  class="body">
 <div class="p0 m0 w100p">
     <section class="mt10 addbill-section">
         <div class="alert alert-info">
-            未结账单:666.66元
-            <span class="glyphicon glyphicon-fire fr addbill-btn">全部结算</span>
+            查看的折线图为未结算的金额
         </div>
     </section>
     <section>
-        <form class="form-horizontal" id="form1">
-            <fieldset>
-                <legend></legend>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">接口名</label>
-                    <div class="col-sm-3">
-                        <input class="form-control" name="method" id="met1hod" value="epay.terminal.downloadPublicKey"/>
-                    </div>
-                    <div class="col-sm-8">
-                        <!--<span class="search">-->
-                        <!--<a href="#" class="button orange">查找</a>-->
-                        <!--</span>-->
-                        <button class="btn btn-success" type="button" title="查找"><i class="glyphicon glyphicon-search"></i></button>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </section>
-    <section>
-        <table id="table">
-        </table>
+        <div id="mainChart"  style="width: 100%;height:400px;"></div>
     </section>
 </div>
-<div id="mainChart"></div>
 </body>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="../lib/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="../lib/validate/jquery.validate.min.js"></script>
-<script src="../js/future.js"></script>
+<script src="../js/util/future.js"></script>
 <script src="../lib/bootstrapsubmenu/js/bootstrap-submenu.js"></script>
 <script src="../lib/bootstraptreeview/js/bootstrap-treeview.js"></script>
 <script src="../lib/bootstraptable/js/bootstrap-table.min.js"></script>
@@ -69,7 +47,7 @@
 <script src="../js/locale/zh.js"></script>
 <script src="../js/messTree.js"></script>
 <script src="../js/echarAnalyse.js"></script>
-<script src="../js/common.js"></script>
+<!--<script src="../js/common.js"></script>-->
 <script>
 </script>
 </html>

@@ -7,41 +7,83 @@
     <link rel="shortcut icon" type="image/x-icon" href="../img/logo.png">
     <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/future.css">
+    <link rel="stylesheet" href="../css/pagecss/zzsc.css">
     <link rel="stylesheet" href="../lib/bootstraptreeview/css/bootstrap-treeview.css">
     <style>
-        .trHeight{
-            height : 50px;
-            text-align: center;
-            border-bottom: 1px solid silver;
-        }
-        .trHeight td {
-            width : 150px;
-        }
-        .text-red{color: red;font-weight: bolder;}
-        #treeview .edit{
-            border: 0px;
-        }
-        #interfaceNote{color: #b3b3b3}
-    </style>
-    <style>
-        #loading-mask {position: fixed;_position: absolute;left: 0;top: 0;width:100%;height:100%;z-index: 20000;background-color:#000;filter:alpha(Opacity = 50);-moz-opacity:0.8;opacity:0.8;}
-        #loading {position: absolute;left: 50%;top: 50%;padding: 2px;z-index: 20001;height: auto;}
+        .neonText h2 { color: #fff; text-shadow:0 0 5px #CCCCCC, 0 0 10px #CCCCCC, 0 0 15px #CCCCCC, 0 0 20px #095816, 0 0 25px #095816, 0 0 30px #095816, 0 0 50px #095816, 0 0 80px #095816, 0 0 100px #095816, 0 0 150px #095816 }
     </style>
 </head>
-<body onload="">
-<div class="container" style="margin-bottom: 15px;">
-    <legend>
-        <h1 id="interfaceCName">欢迎使用模拟工具-mock</h1>
-        <h3 id="interfaceNote">欢迎使用模拟工具-mock</h3>
-    </legend>
+<body>
+<div id="level">
+    <div id="content">
+        <div id="gears">
+            <div id="gears-static"></div>
+            <div id="gear-system-1">
+                <div class="shadow" id="shadow15"></div>
+                <div id="gear15"></div>
+                <div class="shadow" id="shadow14"></div>
+                <div id="gear14"></div>
+                <div class="shadow" id="shadow13"></div>
+                <div id="gear13"></div>
+            </div>
+            <div id="gear-system-2">
+                <div class="shadow" id="shadow10"></div>
+                <div id="gear10"></div>
+                <div class="shadow" id="shadow3"></div>
+                <div id="gear3"></div>
+            </div>
+            <div id="gear-system-3">
+                <div class="shadow" id="shadow9"></div>
+                <div id="gear9"></div>
+                <div class="shadow" id="shadow7"></div>
+                <div id="gear7"></div>
+            </div>
+            <div id="gear-system-4">
+                <div class="shadow" id="shadow6"></div>
+                <div id="gear6"></div>
+                <div id="gear4"></div>
+            </div>
+            <div id="gear-system-5">
+                <div class="shadow" id="shadow12"></div>
+                <div id="gear12"></div>
+                <div class="shadow" id="shadow11"></div>
+                <div id="gear11"></div>
+                <div class="shadow" id="shadow8"></div>
+                <div id="gear8"></div>
+            </div>
+            <div class="shadow" id="shadow1"></div>
+            <div id="gear1"></div>
+            <div id="gear-system-6">
+                <div class="shadow" id="shadow5"></div>
+                <div id="gear5"></div>
+                <div id="gear2"></div>
+            </div>
+            <div class="shadow" id="shadowweight"></div>
+            <div id="chain-circle"></div>
+            <div id="chain"></div>
+            <div id="weight"></div>
+        </div>
+    </div>
 </div>
+<div style="text-align:center;clear:both">
+</div>
+<span class="neonText" style="position: fixed;z-index: 100;right:24px;top:30px;">
+    <h2>图书馆账务系统</h2>
+    <!--<h3>v1.0.0 © 2017 future院落 版权所有</h3>-->
+</span>
+<!--<img src="../img/fz.jpg">-->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="../lib/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="../lib/validate/jquery.validate.min.js"></script>
 <script src="../js/locale/zh.js"></script>
-<script src="../js/future.js"></script>
+<script src="../js/util/future.js"></script>
 <script src="../lib/bootstraptreeview/js/bootstrap-treeview.js"></script>
+<script>
+window.onresize=function () {
+    $("body img").css({width:window.innerWidth,height:window.innerHeight});
+}
+</script>
 </body>
 </html>

@@ -569,7 +569,7 @@ bs.openDialog= function (options,handler) {
     if (options.single){
         html.push('<div class="modal-footer tc">');
         defaultOptions.agreeText = '确定';
-        html.push('<button type="button" class="btn btn-primary w200">'+defaultOptions.agreeText+'</button>');
+        html.push('<button type="button" class="btn btn-success agree-btn w200">'+defaultOptions.agreeText+'</button>');
     }else{
         html.push('<div class="modal-footer tc">');
         html.push('<button type="button" class="btn btn-default" data-dismiss="modal">'+defaultOptions.cancelText+'</button>');
@@ -769,8 +769,8 @@ bs.apiRoot = function () {
     var jsroot='';
     for(var i=js.length;i>0;i--){
         jsroot=js[i-1].src;
-        if(jsroot.indexOf("/debug/js/common")>-1){
-            jsroot=jsroot.substring(0,jsroot.indexOf("/debug/js/common"));
+        if(jsroot.indexOf("/js/util")>-1){
+            jsroot=jsroot.substring(0,jsroot.indexOf("/js/util"));
             break;
         }
     }
@@ -805,7 +805,12 @@ bs.ajax = function (option) {
             bs.respHandle(result,option);
         },
         error : function(xhr, type) {
-            bs.toast('error',xhr.status,xhr.statusText);
+            if(xhr.responseText){
+                var responseJson = eval("("+xhr.responseText+")");
+                bs.toast('error',xhr.status,responseJson.message);
+            }else{
+                bs.toast('error',xhr.status,xhr.statusText);
+            }
         }
     });
 };
@@ -825,24 +830,6 @@ bs.respHandle = function (result, option) {
         if(option&&option.success){
             option.success(result.data);
         }
-    }else if(result.code == "businessException"){
-        //业务异常
-        bs.errorMsg(result.businessMsg);
-    }else if(result.code == "deniedException"){
-        if (parent.timeoutAlert){
-            parent.timeoutAlert(result.businessMsg.businessNote);
-        }else{
-            //权限异常
-            bs.alert({msg:result.businessMsg.businessNote},function(){
-                window.location.href = '../login.html';
-            });
-        }
-    }else if(result.code == "permissionException"){
-        //权限认证异常
-        bs.errorMsg(result.businessMsg);
-    }else if(result.code == "serverException"){
-        //服务端异常
-        bs.errorMsg(result.businessMsg);
     }else {
         bs.errorMsg(result.businessMsg);
         if(option&&option.error){

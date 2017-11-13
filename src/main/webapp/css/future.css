@@ -197,6 +197,9 @@ h3, h4, h5 {
 .h50 {
     height: 50px;
 }
+.l50 {
+    line-height: 50px;
+}
 .h80 {
     height: 80px;
 }
@@ -561,7 +564,7 @@ button i{
 
 }
 .select2-container--bootstrap .select2-selection--single .select2-selection__rendered{
-    /*padding: 5px;*/
+    padding: 5px;
 }
 .addnode,.deletenode,.addsiblingnode {color:#428bca;}
 .bs-btn{

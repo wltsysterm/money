@@ -21,7 +21,7 @@
     <style>
     </style>
 </head>
-<body style="background-color: #FCFCFC;" >
+<body class="body">
 <div class="p0 m0 w100p">
     <section class="mt10 addbill-section">
         <div class="alert alert-info">
@@ -35,30 +35,25 @@
     </section>
 </div>
 <div class="none">
-    <form class="form-horizontal" id="form" action="#">
+    <form class="form-horizontal" id="form" action="/future/money/addBill">
         <fieldset>
             <div class="form-group">
-                <label class="col-sm-3 control-label">接口名</label>
+                <label class="col-sm-3 control-label">项目</label>
                 <div class="col-sm-9">
-                    <select class="form-control" id="billproject"></select>
+                    <select class="form-control" name="projectName"></select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">接口名</label>
+                <label class="col-sm-3 control-label">数量</label>
                 <div class="col-sm-9">
-                    <input class="form-control"/>
+                    <input class="form-control" name="projectCount"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">接口名</label>
+                <label class="col-sm-3 control-label">单价</label>
                 <div class="col-sm-9">￥
                     <span class="" style="line-height: 34px;">0.00</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">接口名</label>
-                <div class="col-sm-9">
-                    <input class="form-control"/>
+                    <input type="hidden" name="projectPrice" value="0.01">
                 </div>
             </div>
         </fieldset>
@@ -70,7 +65,7 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="../lib/validate/jquery.validate.min.js"></script>
-<script src="../js/future.js"></script>
+<script src="../js/util/future.js"></script>
 <script src="../lib/bootstrapsubmenu/js/bootstrap-submenu.js"></script>
 <script src="../lib/bootstraptreeview/js/bootstrap-treeview.js"></script>
 <script src="../lib/bootstraptable/js/bootstrap-table.min.js"></script>
@@ -78,7 +73,7 @@
 <script src="../js/locale/zh.js"></script>
 <script src="../js/messTree.js"></script>
 <script src="../js/addBill.js"></script>
-<script src="../js/common.js"></script>
+<!--<script src="../js/common.js"></script>-->
 <script>
 </script>
 </html>

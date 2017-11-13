@@ -45,7 +45,7 @@ function initSummaryChart(){
             trigger: 'axis'
         },
         legend: {
-            data:['订单笔数','成功笔数']
+            data:['金额（￥）']
         },
         toolbox: {
             show : true,
@@ -71,7 +71,7 @@ function initSummaryChart(){
         ],
         series : [
             {
-                name:'订单笔数',
+                name:'金额（￥）',
                 type:'line',
                 data:y1Ary,
                 itemStyle : {
@@ -79,30 +79,6 @@ function initSummaryChart(){
                         color:'#D2691E',
                         lineStyle:{
                             color:'#D2691E'
-                        }
-                    }
-                },
-                markPoint : {
-                    data : [
-                        {type : 'max', name: '最大值'},
-                        {type : 'min', name: '最小值'}
-                    ]
-                },
-                markLine : {
-                    data : [
-                        {type : 'average', name : '平均值'}
-                    ]
-                }
-            },
-            {
-                name:'成功笔数',
-                type:'line',
-                data:y2Ary,
-                itemStyle : {
-                    normal : {
-                        color:'#4B0082  ',
-                        lineStyle:{
-                            color:'#4B0082'
                         }
                     }
                 },

@@ -1,5 +1,7 @@
 $(function () {
-    bs.select("#billproject",[]);
+    var infoList = new Array();
+    infoList.push({id:"A4",text:"A4纸张"})
+    bs.select("#form select[name=projectName]",bs.addArrFull(infoList,""));
     $(".addbill-section").on("click",".addbill-btn",function () {
         bs.alert({
             msg:"谨慎新建账单，一经新建不能撤销",

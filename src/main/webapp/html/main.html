@@ -15,22 +15,27 @@
     <link rel="stylesheet" href="../lib/adminlte/css/animate.min.css">
     <link rel="stylesheet" href="../css/future.css">
     <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 <body style="">
-<div class="h50 w100p" style="background-color: #14d1ff;position: fixed;z-index: 11;top:0;"></div>
+<div class="h50 w100p p0 l50 header-div">
+    <img class="Rotation fl" src="../img/logo.jpg"/>
+    <div class="text3D fl round">小福记账</div>
+    <div class="user-info fr">future院落,早上好<i class="glyphicon glyphicon-log-out ml10 logout" title="退出"></i></div>
+</div>
 <div class="container" style="margin-top: 50px;">
     <section class="col-md-12" id="IndexMainDiv">
         <nav class="col-md-2 aside-nav" style="background-color: #F1F1F1;border-radius: 24px;">
             <ul class="list-group">
-                <li class="list-group-item" href="../html/test.html">免费域名注册</li>
-                <li class="list-group-item">免费 Window </li>
-                <li class="list-group-item">图像的数量</li>
-                <li class="list-group-item">24*7 支持</li>
-                <li class="list-group-item">每年更新成本</li>
+                <li class="list-group-item" href="verifyUser">人员审核</li>
+                <li class="list-group-item" href="addBill">我的账单</li>
+                <li class="list-group-item" href="projectMgr">项目管理</li>
+                <li class="list-group-item" href="settleBill">账单结算</li>
+                <li class="list-group-item" href="echarAnalyse">图表分析</li>
             </ul>
         </nav>
         <article class="col-md-10" id="content">
-            <iframe src="../html/echarAnalyse.html" frameborder="0" width="100%" scrolling="no" onload="resizeIframe(this);">
+            <iframe src="../html/page.html" frameborder="0" width="100%" scrolling="no" onload="resizeIframe(this);">
             </iframe>
         </article>
     </section>
@@ -44,7 +49,7 @@
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="../lib/validate/jquery.validate.min.js"></script>
 <script src="../js/locale/zh.js"></script>
-<script src="../js/future.js"></script>
+<script src="../js/util/future.js"></script>
 <script src="../lib/bootstrapsubmenu/js/bootstrap-submenu.js"></script>
 <script src="../lib/bootstraptreeview/js/bootstrap-treeview.js"></script>
 <script src="../lib/bootstraptable/js/bootstrap-table.min.js"></script>

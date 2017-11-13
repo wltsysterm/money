@@ -1,0 +1,62 @@
+.trueInset h2 { background: #0d5aa7; -webkit-background-clip: text; -moz-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 3px 3px rgba(255,255,255,0.5); }
+.text3D {
+    /*margin-left:20px;*/
+    font-size:28px;
+    color: #fff;
+    text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,0.1), 0 0 5px rgba(0,0,0,0.1),0 1px 3px rgba(0,0,0,0.3),0 3px 5px rgba(0,0,0,0.2),0 5px 10px rgba(0,0,0,0.25);
+}
+.user-info{
+    color: white;
+    font-weight: bolder;
+    font-size: 16px;
+    margin-right:70px;
+}
+/*效果一：360°旋转 修改rotate(旋转度数)*/
+.round {
+    transition: All 0.4s ease-in-out;
+    -webkit-transition: All 0.4s ease-in-out;
+    -moz-transition: All 0.4s ease-in-out;
+    -o-transition: All 0.4s ease-in-out;
+}
+
+.round:hover {
+    cursor: pointer;
+    transform: rotate(360deg) scale(1.2);
+    -webkit-transform: rotate(360deg) scale(1.2);
+    -moz-transform: rotate(360deg) scale(1.2);
+    -o-transform: rotate(360deg) scale(1.2);
+    -ms-transform: rotate(360deg) scale(1.2);
+}
+@-webkit-keyframes rotation{
+    from {-webkit-transform: rotate(0deg);}
+    to {-webkit-transform: rotate(360deg);}
+}
+
+.Rotation{
+    -webkit-transform: rotate(360deg);
+    animation: rotation 6s linear infinite;
+    -moz-animation: rotation 6s linear infinite;
+    -webkit-animation: rotation 6s linear infinite;
+    -o-animation: rotation 6s linear infinite;
+    border-radius: 25px;
+    margin-left: 20px;
+    width: 50px;
+    height: 50px;
+}
+.header-div{
+    background-color: #14d1ff;position: fixed;z-index: 11;top:0;
+}
+.logout:hover{
+    cursor: pointer;
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+}
+.logout {
+    transition: All 0.4s ease-in-out;
+    -webkit-transition: All 0.4s ease-in-out;
+    -moz-transition: All 0.4s ease-in-out;
+    -o-transition: All 0.4s ease-in-out;
+}

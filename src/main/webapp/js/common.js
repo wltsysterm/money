@@ -22,12 +22,16 @@ $(function () {
         _this.addClass("current");
         openPage(_this);
     })
+    $(".logout").on("click",function () {
+        var _this = $(this);
+        window.location="../html/login.html";
+    })
 });
 function openPage(_this) {
     //验证是否登入
     //打开页面
     var url = _this.attr("href");
-    $("#IndexMainDiv iframe").attr("src",url);
+    $("#IndexMainDiv iframe").attr("src","../html/"+url+".html");
 }
 function resizeIframe(iframe) {
     if (iframe) {

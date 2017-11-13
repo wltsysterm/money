@@ -1,18 +1,4 @@
-var summary;
-var option;
-var summaryChart;
-var worldMapContainer;
 $(function () {
-    worldMapContainer = document.getElementById('mainChart');
-    // 基于准备好的dom，初始化echarts实例
-    summaryChart = echarts.init(worldMapContainer);
-    summaryChart.setOption(option);
-    //用于使chart自适应高度和宽度
-    window.onresize = function () {
-        //重置容器高宽
-        summaryChart.resize();
-    };
-
     bs.select("#billproject",[]);
     $(".addbill-section").on("click",".addbill-btn",function () {
         bs.alert({msg:"确定结算所有人员未结账单？",cancelText:"取消"},function () {

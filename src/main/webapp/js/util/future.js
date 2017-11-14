@@ -1091,6 +1091,14 @@ bs.authMenu = function (auth) {
         return true;
     }
 };
+function logoutAuto() {
+    setTimeout(function () {
+        toLogin();
+    },"2000");
+}
+function toLogin() {
+    window.location="../html/login.html";
+}
 //获取地址栏的参数插件
 jQuery.extend({
     /**

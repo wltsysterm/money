@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.count.money.controller.req.LoginReq;
 import com.count.money.controller.req.RegisterReq;
+import com.count.money.controller.req.VerifyReq;
+import com.count.money.controller.req.VerifySelectReq;
 import com.count.money.controller.resp.AuthResp;
 import com.count.money.core.common.MsgResult;
 import com.count.money.core.common.PageReq;
-import com.count.money.core.common.PageResult;
 import com.count.money.core.safe.login.SessionDataService;
 import com.count.money.core.safe.userSafe.AppContext;
 import com.count.money.core.safe.userSafe.SessionData;
@@ -23,9 +24,7 @@ import com.count.money.util.IDUtils;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
@@ -46,6 +45,7 @@ public class MoneyBillController {
         moneyBill.setId(IDUtils.newID());
         SessionData sessionData = AppContext.getSession();
         moneyBill.setMemberId(sessionData.getId());
+        moneyBill.setState("1");
         moneyBillService.insert(moneyBill);
         return new MsgResult();
     }
@@ -151,7 +151,35 @@ public class MoneyBillController {
         moneyMember.setId(IDUtils.newID());
         moneyMember.setType("1");
         moneyMember.setState("2");//待审核
+        moneyMember.setCreateTime(DateUtil.getCurrentTimeFull());
         moneyMemberService.insert(moneyMember);
         return new MsgResult("注册成功，并提交审核，请稍后登入");
+    }
+    @RequestMapping("/selectMemberByPage")
+    public MsgResult selectMemberByPage(PageReq pageReq,VerifySelectReq verifySelectReq)throws Exception{
+        MoneyMember moneyMember = new MoneyMember();
+        moneyMember.setType("1");//只展示普通的用户
+        EntityWrapper entityWrapper = new EntityWrapper(moneyMember);
+        if(verifySelectReq.getState()!="0"){
+            moneyMember.setState(verifySelectReq.getState());
+        }
+        if(StringUtils.isEmpty(verifySelectReq.getCollege())){
+            entityWrapper.like("college", verifySelectReq.getCollege());
+        }
+        if(StringUtils.isEmpty(verifySelectReq.getMajor())){
+            entityWrapper.like("major", verifySelectReq.getMajor());
+        }
+        if(StringUtils.isEmpty(verifySelectReq.getSn())){
+            entityWrapper.like("sn", verifySelectReq.getSn());
+        }
+        Page page = new Page(pageReq.getPageNo(),pageReq.getPageSize());
+        return new MsgResult(moneyMemberService.selectPage(page,entityWrapper));
+    }
+    @RequestMapping("/verify")
+    public MsgResult verify(VerifyReq verifyReq)throws Exception{
+        MoneyMember moneyMember = BeanConvertUtil.beanConvert(verifyReq,MoneyMember.class);
+        moneyMember.setVerifyTime(DateUtil.getCurrentTimeFull());
+        moneyMemberService.updateById(moneyMember);
+        return new MsgResult();
     }
 }

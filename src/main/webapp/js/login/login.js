@@ -31,6 +31,7 @@ function submitLogin() {
             bs.toast("error","系统维护","后台升级中，请联系阿姨");
         }
     });
+    $("#loginform input[name='password']").val("");
 }
 var loginValid={
     rules:{

@@ -22,7 +22,12 @@ function regist() {
         url : '/future/money/register',
         data: $('#registerform').serialize(),
         success : function(data) {
-            window.location="../../html/login.html";
+            if(data.code){
+                bs.toast("error","注册提示",data.msg);
+            }else{
+                bs.toast("success","注册提示",data);
+                logoutAuto();
+            }
         },
         error : function(data) {
             bs.toast("error","系统维护","后台升级中，请联系阿姨");

@@ -30,7 +30,7 @@ public class SessionDataService {
             map.put("state","ok");
             SessionData sessionData = BeanConvertUtil.beanConvert(moneyMember1,SessionData.class);
             request.getSession().setAttribute("token_money",sessionData);
-            request.getSession().setMaxInactiveInterval(5*60);
+            request.getSession().setMaxInactiveInterval(30*60);
 //            AppContext.putSession(sessionData);
         }else if(moneyMember1.getState().equals("2")){
             map.put("state","fail");
@@ -40,8 +40,7 @@ public class SessionDataService {
     }
     public Map logout(HttpServletRequest httpServletRequest)throws Exception{
         Map map = new HashMap();
-        SessionData sessionData = AppContext.getSession();
-        if(sessionData==null){
+        if(httpServletRequest.getSession().getAttribute("token_money")==null){
             map.put("state","warning");
             map.put("msg","即将自动退出");
         }else{

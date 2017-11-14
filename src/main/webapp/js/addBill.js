@@ -11,6 +11,8 @@ $(function () {
                 isClear:true,
                 title:"新建账单",
                 width:400
+            },function () {
+                bs.tableRefresh("#table");
             });
             }
             );

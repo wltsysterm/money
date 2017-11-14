@@ -1,97 +1,59 @@
 $(function () {
+    var states = new Aray();
+    states.push({id:1,text:"待审核"});
+    states.push({id:2,text:"审核通过"});
+    states.push({id:3,text:"审核未过"});
+    bs.select("#form select[name=state]",bs.addArrFull(states,"0"));
     bs.table('#table', {
-        // url: "/api/merchantTrade/queryTrade",
-        // toolbar: '#toolbar',
+        url: "/future/money/selectMemberByPage",
         pagination: true,
-        // params: function () {
-        //     return $("#queryTradeForm").serializeObject();
-        // },
-        // pageSize: 5,
-        // pageList: [5, 10],
+        params: function () {
+            return $("#form").serializeObject();
+        },
         height:"100%",
-        data:data,
-        rows:50,
         columns: [{
-            field: 'college',
-            title: '交易状态',
+            field: 'trueName',
+            title: '姓名',
             align: 'center',
-            width: '150px',
         }, {
             field: 'sn',
-            title: '交易状态',
+            title: '学号',
             align: 'center',
-            width: '150px',
         }, {
-            field: 'trueName',
-            title: '交易状态',
+            field: 'college',
+            title: '学院',
             align: 'center',
-            width: '150px',
+        }, {
+            field: 'major',
+            title: '专业',
+            align: 'center',
         }, {
             title: '操作',
             width: '150px',
             field: 'state',
             formatter: function (value, row, index) {
-                var html = "<button class='md-trigger' data-modal='modal-4' onclick='openModal("+index+");'>Newspaper</button>";
+                var html = "<button class='btn btn-warning' onclick='verify("+index+");'>审核</button>";
+                html+="<button class='btn btn-danger' onclick='delete("+index+");'>删除</button>";
                 return html;
             }
         }]
     });
 });
 
-function openModal(index){
-    var row = bs.tableRow("#table",index)
-    $("#test .test").html(JSON.stringify(row));
+function verify(index){
+    var row = bs.tableRow("#table",index);
     bs.submitForm({
-        title:"test",
-        id:"test",
+        id:"verify",
         isClear:true
+    },function () {
+        bs.tableRefresh("table");
+    },function () {
+        $("#verify textarea[name=note]").val("审核通过");
+        $("#verify input[name=id]").val(row.id);
     });
-    bs.resetDlgPosition("test");
+    bs.resetDlgTitle("verify",row.trueName+"-信息审核");
+    bs.resetDlgPosition("verify");
 }
 window.parent.onscroll = function() {
-    bs.resetDlgPositionByState("test");
+    bs.resetDlgPositionByState("verify");
 }
-// window.onscroll = function() {
-//     console.log("窗口发生改变了哟！");
-// }
-// $(window).resize(function() {
-//     $('body').find('.box').css('height',window.innerHeight - 10);
-// });
-window.onresize = function(){
-
-}
-function resizeIframe(iframe) {
-    if (iframe) {
-        var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
-        if (iframeWin.document.body) {
-            console.log(iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight);
-            iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
-        }
-    }
-}
-    var data = [
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111}
-];

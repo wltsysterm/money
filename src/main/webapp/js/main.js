@@ -52,14 +52,7 @@ $(function () {
         openPage(_this);
     })
 });
-function toLogin() {
-    window.location="../html/login.html";
-}
-function logoutAuto() {
-    setTimeout(function () {
-        toLogin();
-    },"2000");
-}
+
 function openPage(_this) {
     //验证是否登入
     //打开页面

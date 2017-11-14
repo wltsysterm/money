@@ -16,6 +16,11 @@ public class MoneyMember {
     private String password;
     private String state;
     private String type;
+    private String note;
+    @TableField("create_time")
+    private String createTime;
+    @TableField("verify_time")
+    private String verifyTime;
 
     public String getId() {
         return id;
@@ -79,5 +84,29 @@ public class MoneyMember {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getVerifyTime() {
+        return verifyTime;
+    }
+
+    public void setVerifyTime(String verifyTime) {
+        this.verifyTime = verifyTime;
     }
 }

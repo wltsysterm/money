@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="../lib/adminlte/css/AdminLTE.min.css">
     <link rel="stylesheet" href="../lib/adminlte/css/_all-skins.min.css">
     <link rel="stylesheet" href="../lib/adminlte/css/animate.min.css">
-
     <link rel="stylesheet" href="../css/future.css">
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/verifyUser.css">
@@ -32,33 +31,30 @@
             <fieldset>
                 <legend></legend>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">接版本</label>
+                    <label class="col-sm-1 control-label">学院</label>
                     <div class="col-sm-3">
-                        <input class="form-control" name="version" id="version" value="1.0.0"/>
+                        <input class="form-control" name="college" placeholder="请输入学院"/>
                     </div>
-                    <label class="col-sm-1 control-label">接口名</label>
+                    <label class="col-sm-1 control-label">专业</label>
                     <div class="col-sm-3">
-                        <input class="form-control" name="method" id="method" value="epay.terminal.downloadPublicKey"/>
+                        <input class="form-control" name="major" placeholder="请输入专业"/>
                     </div>
-                    <label class="col-sm-1 control-label">接口名</label>
+                    <label class="col-sm-1 control-label">状态</label>
                     <div class="col-sm-3">
-                        <input class="form-control" name="method" id="1" value="epay.terminal.downloadPublicKey"/>
+                        <select class="form-control" name="state"></select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">接版本</label>
+                    <label class="col-sm-1 control-label">姓名</label>
                     <div class="col-sm-3">
-                        <input class="form-control" name="version" id="ver1sion" value="1.0.0"/>
+                        <input class="form-control" name="trueName" placeholder="请输入姓名"/>
                     </div>
-                    <label class="col-sm-1 control-label">接口名</label>
+                    <label class="col-sm-1 control-label">学号</label>
                     <div class="col-sm-3">
-                        <input class="form-control" name="method" id="met1hod" value="epay.terminal.downloadPublicKey"/>
+                        <input class="form-control" name="sn" placeholder="请输入学号"/>
                     </div>
                     <div class="col-sm-4">
-                        <!--<span class="search">-->
-                            <!--<a href="#" class="button orange">查找</a>-->
-                        <!--</span>-->
-                        <button class="btn btn-success" type="button" title="查找"><i class="glyphicon glyphicon-search"></i></button>
+                        <button class="btn btn-success selectMember" type="button" title="查找"><i class="glyphicon glyphicon-search"></i></button>
                     </div>
                 </div>
             </fieldset>
@@ -71,14 +67,23 @@
     </section>
 </div>
 <div class="none">
-    <form id="test">
-        <span class="test"></span>
+    <form class="form-horizontal" id="verify" action="/future/money/verify">
+        <div class="form-group">
+            <label class="col-sm-1 control-label">状态</label>
+            <div class="col-sm-3">
+                审核通过：<input class="form-control" type="radio" value="1" name="state"/>
+                审核通过：<input class="form-control" type="radio" value="3" name="state"/>
+            </div>
+            <label class="col-sm-1 control-label">意见</label>
+            <div class="col-sm-3">
+                <textarea class="form-control" name="note" placeholder="请输入审核意见">审核通过</textarea>
+                <input type="hidden" name="id"/>
+            </div>
+        </div>
     </form>
 </div>
 </body>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="../lib/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="../lib/validate/jquery.validate.min.js"></script>
 <script src="../js/util/future.js"></script>

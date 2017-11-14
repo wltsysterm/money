@@ -6,7 +6,7 @@ $(function () {
             success : function(data) {
                 if(data.state=="success"){
                     // bs.toast("success","登出提示",data.msg);
-                    window.location="../html/login.html";
+                    toLogin();
                 }else if(data.state=="warning"){
                     bs.toast("warning","登出提示",data.msg);
                     logoutAuto();
@@ -19,12 +19,14 @@ $(function () {
     });
     var auth = bs.auth();
     if(!auth){
-        window.location="../html/login.html";
+        toLogin();
     }else{
         if(bs.authMenu(auth)){
             logoutAuto();
+            return;
+        }else{
+            $(".header-div .user-info .money-greet").html(auth.trueName+"，"+bs.greet());
         }
-        return;
     }
     //    点击回到头部
     $(window).scroll(function(){
@@ -50,14 +52,13 @@ $(function () {
         openPage(_this);
     })
 });
+function toLogin() {
+    window.location="../html/login.html";
+}
 function logoutAuto() {
     setTimeout(function () {
-        window.location="../html/login.html";
+        toLogin();
     },"2000");
-}
-function initLi() {
-    //隐藏全部功能
-    // $('li[money]').hide();
 }
 function openPage(_this) {
     //验证是否登入

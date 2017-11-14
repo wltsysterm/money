@@ -30,6 +30,7 @@ public class SessionDataService {
             map.put("state","ok");
             SessionData sessionData = BeanConvertUtil.beanConvert(moneyMember1,SessionData.class);
             request.getSession().setAttribute("token_money",sessionData);
+            request.getSession().setMaxInactiveInterval(5*60);
 //            AppContext.putSession(sessionData);
         }else if(moneyMember1.getState().equals("2")){
             map.put("state","fail");

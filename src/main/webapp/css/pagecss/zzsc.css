@@ -448,7 +448,7 @@ body{
 
 /*ANIMATIONS*/
 /*rotate*/
-@keyframes "rotate" {
+@keyframes rotate {
  from {
     -webkit-transform: rotate(0deg);
    	-moz-transform: rotate(0deg);
@@ -476,7 +476,7 @@ body{
  }
 }
 
-@-webkit-keyframes "rotate" {
+@-webkit-keyframes rotate {
  from {
    -webkit-transform: rotate(0deg);
    transform: rotate(0deg);
@@ -487,7 +487,7 @@ body{
  }
 }
 
-@-ms-keyframes "rotate" {
+@-ms-keyframes rotate {
  from {
    -ms-transform: rotate(0deg);
    transform: rotate(0deg);
@@ -498,7 +498,7 @@ body{
  }
 }
 
-@-o-keyframes "rotate" {
+@-o-keyframes rotate {
  from {
    -o-transform: rotate(0deg);
    transform: rotate(0deg);
@@ -509,7 +509,7 @@ body{
  }
 }
 /*rotate-back*/
-@keyframes "rotate-back" {
+@keyframes rotate-back {
  from {
     -webkit-transform: rotate(0deg);
    	-moz-transform: rotate(0deg);
@@ -537,7 +537,7 @@ body{
  }
 }
 
-@-webkit-keyframes "rotate-back" {
+@-webkit-keyframes rotate-back {
  from {
    -webkit-transform: rotate(0deg);
    transform: rotate(0deg);
@@ -548,7 +548,7 @@ body{
  }
 }
 
-@-ms-keyframes "rotate-back" {
+@-ms-keyframes rotate-back {
  from {
    -ms-transform: rotate(0deg);
    transform: rotate(0deg);
@@ -559,7 +559,7 @@ body{
  }
 }
 
-@-o-keyframes "rotate-back" {
+@-o-keyframes rotate-back {
  from {
    -o-transform: rotate(0deg);
    transform: rotate(0deg);
@@ -570,7 +570,7 @@ body{
  }
 }
 /*weight up*/
-@keyframes "up" {
+@keyframes up {
  from {
     bottom: 0px;
  }
@@ -588,7 +588,7 @@ body{
  }
 }
 
-@-webkit-keyframes "up" {
+@-webkit-keyframes up {
  from {
    bottom: 0px;
  }
@@ -597,7 +597,7 @@ body{
  }
 }
 
-@-ms-keyframes "up" {
+@-ms-keyframes up{
  from {
    bottom: 0px;
  }
@@ -606,7 +606,7 @@ body{
  }
 }
 
-@-o-keyframes "up" {
+@-o-keyframes up {
  from {
    bottom: 0px;
  }
@@ -615,7 +615,7 @@ body{
  }
 }
 /*chain up and down*/
-@keyframes "collapse" {
+@keyframes collapse {
  from {
     height: 387px;
  }
@@ -633,7 +633,7 @@ body{
  }
 }
 
-@-webkit-keyframes "collapse" {
+@-webkit-keyframes collapse {
  from {
    height: 387px;
  }
@@ -642,7 +642,7 @@ body{
  }
 }
 
-@-ms-keyframes "collapse" {
+@-ms-keyframes collapse {
  from {
    height: 387px;
  }
@@ -651,7 +651,7 @@ body{
  }
 }
 
-@-o-keyframes "collapse" {
+@-o-keyframes collapse {
  from {
    height: 387px;
  }

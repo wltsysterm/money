@@ -1,7 +1,8 @@
 $(function () {
-    var states = new Aray();
-    states.push({id:1,text:"待审核"});
-    states.push({id:2,text:"审核通过"});
+    bs.authCheck();
+    var states = new Array();
+    states.push({id:1,text:"审核通过"});
+    states.push({id:2,text:"待审核"});
     states.push({id:3,text:"审核未过"});
     bs.select("#form select[name=state]",bs.addArrFull(states,"0"));
     bs.table('#table', {
@@ -14,45 +15,86 @@ $(function () {
         columns: [{
             field: 'trueName',
             title: '姓名',
-            align: 'center',
+            align: 'center'
         }, {
             field: 'sn',
             title: '学号',
-            align: 'center',
+            align: 'center'
         }, {
             field: 'college',
             title: '学院',
-            align: 'center',
+            align: 'center'
         }, {
             field: 'major',
             title: '专业',
+            align: 'center'
+        }, {
+            field: 'note',
+            title: '意见',
+            align: 'left'
+        }, {
+            field: 'state',
+            title: '状态',
             align: 'center',
+            formatter:function (value,row,index) {
+                if(value==1){
+                    return "审核通过";
+                }else if(value==2){
+                    return "待审核";
+                }else if(value==3){
+                    return "审核未过";
+                }else {
+                    return "未知";
+                }
+            }
         }, {
             title: '操作',
             width: '150px',
             field: 'state',
             formatter: function (value, row, index) {
-                var html = "<button class='btn btn-warning' onclick='verify("+index+");'>审核</button>";
-                html+="<button class='btn btn-danger' onclick='delete("+index+");'>删除</button>";
+                var html="";
+                if(row.state==2){
+                    html+= "<button class='btn btn-warning' onclick='verify("+index+");'>审核</button>";
+                }
+                html+="<button class='btn btn-danger' onclick='delModal("+index+");'>删除</button>";
                 return html;
             }
         }]
+    });
+    $("#form .selectMember").on("click",function () {
+        bs.tableRefresh("table");
     });
 });
 
 function verify(index){
     var row = bs.tableRow("#table",index);
+    $("#verify")[0].reset();
     bs.submitForm({
         id:"verify",
-        isClear:true
+        // isClear:true
     },function () {
+        bs.toast("success","","操作成功");
         bs.tableRefresh("table");
     },function () {
-        $("#verify textarea[name=note]").val("审核通过");
         $("#verify input[name=id]").val(row.id);
     });
-    bs.resetDlgTitle("verify",row.trueName+"-信息审核");
+    bs.resetDlgTitle("verify","信息审核-"+row.trueName);
     bs.resetDlgPosition("verify");
+}
+
+function delModal(index){
+    var row = bs.tableRow("#table",index)
+    bs.alert({msg:"确定删除【"+row.trueName+"】",cancelText:"取消"},function () {
+        bs.ajax({
+                url:"/future/money/deleteMember",
+                data:{id:row.id},
+                success:function (data) {
+                    bs.tableRefresh("#table");
+                    bs.toast("info","删除成功")
+                }
+            }
+        );
+    })
 }
 window.parent.onscroll = function() {
     bs.resetDlgPositionByState("verify");

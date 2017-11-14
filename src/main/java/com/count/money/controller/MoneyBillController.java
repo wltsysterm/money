@@ -144,8 +144,10 @@ public class MoneyBillController {
     @RequestMapping("/register")
     public MsgResult register(RegisterReq registerReq)throws Exception{
         MoneyMember moneyMember = BeanConvertUtil.beanConvert(registerReq,MoneyMember.class);
+        EntityWrapper ew = new EntityWrapper<>(moneyMember);
+        ew.notIn("state","4");
 //        sn不能重复
-        if(moneyMemberService.selectOne(new EntityWrapper<>(moneyMember))!=null){
+        if(moneyMemberService.selectOne(ew)!=null){
             throw new Exception("该学号已被注册");
         }
         moneyMember.setId(IDUtils.newID());
@@ -160,8 +162,10 @@ public class MoneyBillController {
         MoneyMember moneyMember = new MoneyMember();
         moneyMember.setType("1");//只展示普通的用户
         EntityWrapper entityWrapper = new EntityWrapper(moneyMember);
-        if(verifySelectReq.getState()!="0"){
+        if(!verifySelectReq.getState().equals("0")){
             moneyMember.setState(verifySelectReq.getState());
+        }else{
+            entityWrapper.notIn("state","4");
         }
         if(StringUtils.isEmpty(verifySelectReq.getCollege())){
             entityWrapper.like("college", verifySelectReq.getCollege());
@@ -172,13 +176,23 @@ public class MoneyBillController {
         if(StringUtils.isEmpty(verifySelectReq.getSn())){
             entityWrapper.like("sn", verifySelectReq.getSn());
         }
+        entityWrapper.orderBy("create_time",false);
         Page page = new Page(pageReq.getPageNo(),pageReq.getPageSize());
-        return new MsgResult(moneyMemberService.selectPage(page,entityWrapper));
+        return new MsgResult(BeanConvertUtil.pageConvert(moneyMemberService.selectPage(page,entityWrapper),MoneyMember.class));
     }
     @RequestMapping("/verify")
     public MsgResult verify(VerifyReq verifyReq)throws Exception{
         MoneyMember moneyMember = BeanConvertUtil.beanConvert(verifyReq,MoneyMember.class);
         moneyMember.setVerifyTime(DateUtil.getCurrentTimeFull());
+        moneyMemberService.updateById(moneyMember);
+        return new MsgResult();
+    }
+    @RequestMapping("/deleteMember")
+    public MsgResult deleteMember(String id){
+        MoneyMember moneyMember = new MoneyMember();
+        moneyMember.setId(id);
+        moneyMember.setDeleteTime(DateUtil.getCurrentTimeFull());
+        moneyMember.setState("4");
         moneyMemberService.updateById(moneyMember);
         return new MsgResult();
     }

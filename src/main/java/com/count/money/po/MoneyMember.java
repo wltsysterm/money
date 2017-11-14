@@ -15,12 +15,22 @@ public class MoneyMember {
     private String sn;
     private String password;
     private String state;
-    private String type;
+    private String type;//1：审核通过 2：待审核 3：审核未过 4：删除
     private String note;
     @TableField("create_time")
     private String createTime;
     @TableField("verify_time")
     private String verifyTime;
+    @TableField("delete_time")
+    private String deleteTime;
+
+    public String getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(String deleteTime) {
+        this.deleteTime = deleteTime;
+    }
 
     public String getId() {
         return id;

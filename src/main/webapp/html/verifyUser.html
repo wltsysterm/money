@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../lib/adminlte/css/AdminLTE.min.css">
     <link rel="stylesheet" href="../lib/adminlte/css/_all-skins.min.css">
     <link rel="stylesheet" href="../lib/adminlte/css/animate.min.css">
+    <link rel="stylesheet" href="../lib/select2/css/select2.min.css">
     <link rel="stylesheet" href="../css/future.css">
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/verifyUser.css">
@@ -69,13 +70,23 @@
 <div class="none">
     <form class="form-horizontal" id="verify" action="/future/money/verify">
         <div class="form-group">
-            <label class="col-sm-1 control-label">状态</label>
-            <div class="col-sm-3">
-                审核通过：<input class="form-control" type="radio" value="1" name="state"/>
-                审核通过：<input class="form-control" type="radio" value="3" name="state"/>
+            <label class="col-sm-4 control-label">状态</label>
+            <div class="col-sm-8">
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="state" value="1" checked>审核通过
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="state"  value="3">审核未过
+                    </label>
+                </div>
             </div>
-            <label class="col-sm-1 control-label">意见</label>
-            <div class="col-sm-3">
+        </div>
+        <div class="form-group mt15">
+            <label class="col-sm-4 control-label">意见</label>
+            <div class="col-sm-8">
                 <textarea class="form-control" name="note" placeholder="请输入审核意见">审核通过</textarea>
                 <input type="hidden" name="id"/>
             </div>
@@ -90,6 +101,7 @@
 <script src="../lib/bootstrapsubmenu/js/bootstrap-submenu.js"></script>
 <script src="../lib/bootstraptreeview/js/bootstrap-treeview.js"></script>
 <script src="../lib/bootstraptable/js/bootstrap-table.min.js"></script>
+<script src="../lib/select2/js/select2.min.js"></script>
 <script src="../js/locale/zh.js"></script>
 <script src="../js/messTree.js"></script>
 <script src="../js/verifyUser.js"></script>

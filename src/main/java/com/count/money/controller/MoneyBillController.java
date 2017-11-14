@@ -60,8 +60,8 @@ public class MoneyBillController {
         return new MsgResult(BeanConvertUtil.pageConvert(page,MoneyBill.class));
     }
 
-    @RequestMapping("/settleBill")
-    public MsgResult settleBill(List<String> list){
+    @RequestMapping("/deleteBill")
+    public MsgResult deleteBill(List<String> list){
         List<MoneyBill> moneyBills = new ArrayList<>();
         for(String id:list){
             MoneyBill moneyBill = new MoneyBill();

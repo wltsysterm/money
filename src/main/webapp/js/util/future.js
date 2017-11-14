@@ -1086,6 +1086,9 @@ bs.authMenu = function (auth) {
                 $id.show();
             }
         });
+    }else{
+        bs.toast("warning",auth.code,auth.msg);
+        return true;
     }
 };
 //获取地址栏的参数插件

@@ -13,7 +13,7 @@ public class AuthorityInterceptor implements HandlerInterceptor
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
 	{
-		System.out.println(getRequestURI(request));
+//		System.out.println(getRequestURI(request));
 		SessionData sessionData = loginAuth(request);
 		AppContext.putSession(sessionData);
 		return true;

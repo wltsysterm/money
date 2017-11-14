@@ -42,7 +42,7 @@ public class SessionDataService {
         SessionData sessionData = AppContext.getSession();
         if(sessionData==null){
             map.put("state","warning");
-            map.put("msg","非法操作，即将自动退出");
+            map.put("msg","即将自动退出");
         }else{
             AppContext.putSession(null);
             httpServletRequest.getSession().invalidate();//.setAttribute("token_money",);

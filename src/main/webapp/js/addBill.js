@@ -16,30 +16,22 @@ $(function () {
             );
     })
     bs.table('#table', {
-        // url: "/api/merchantTrade/queryTrade",
-        // toolbar: '#toolbar',
+        url: "/future/money/selectBillByMember",
         pagination: true,
-        // params: function () {
-        //     return $("#queryTradeForm").serializeObject();
-        // },
-        // pageSize: 5,
-        // pageList: [5, 10],
         height:"100%",
-        data:data,
-        rows:50,
         columns: [{
-            field: 'college',
-            title: '交易状态',
+            field: 'projectName',
+            title: '项目名称',
             align: 'center',
             width: '150px',
         }, {
-            field: 'sn',
-            title: '交易状态',
+            field: 'projectPrice',
+            title: '收费标准(￥)',
             align: 'center',
             width: '150px',
         }, {
-            field: 'trueName',
-            title: '交易状态',
+            field: 'projectCount',
+            title: '数量',
             align: 'center',
             width: '150px',
         }]

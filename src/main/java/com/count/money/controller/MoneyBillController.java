@@ -3,6 +3,8 @@ package com.count.money.controller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.count.money.controller.req.LoginReq;
+import com.count.money.controller.req.RegisterReq;
+import com.count.money.controller.resp.AuthResp;
 import com.count.money.core.common.MsgResult;
 import com.count.money.core.common.PageReq;
 import com.count.money.core.common.PageResult;
@@ -18,15 +20,16 @@ import com.count.money.service.IMoneyProjectService;
 import com.count.money.util.BeanConvertUtil;
 import com.count.money.util.DateUtil;
 import com.count.money.util.IDUtils;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 @RestController
 @RequestMapping("/money")
 public class MoneyBillController {
@@ -106,12 +109,49 @@ public class MoneyBillController {
         moneyProjectService.updateById(moneyProject);
         return new MsgResult();
     }
+    @RequestMapping("/auth")
+    public MsgResult auth(LoginReq loginReq)throws Exception{
+        SessionData sessionData = AppContext.getSession();
+        AuthResp authResp = BeanConvertUtil.beanConvert(sessionData,AuthResp.class);
+        String type=null;
+        if(authResp!=null){
+            type=authResp.getType();
+        }
+        if(StringUtils.isEmpty(type)){
+            throw new Exception("请先登入");
+        }else if(type.equals("1")){//commonuser
+            authResp.setPermissions(Arrays.asList(new String[]{"money1"}));
+        }else if(type.equals("2")){//manager
+            authResp.setPermissions(Arrays.asList(new String[]{"money2","money3","money4","money5"}));
+        }else if(type.equals("3")){//superuser
+            authResp.setPermissions(Arrays.asList(new String[]{"money1","money2","money3","money4","money5"}));
+        }
+        return new MsgResult(authResp);
+    }
     @RequestMapping("/login")
-    public MsgResult login(LoginReq loginReq)throws Exception{
+    public MsgResult login(LoginReq loginReq,HttpServletRequest request)throws Exception{
         MoneyMember moneyMember = new MoneyMember();
         moneyMember.setSn(loginReq.getSn());
         moneyMember.setPassword(loginReq.getPassword());
-        Map result = sessionDataService.login(moneyMember);
+        Map result = sessionDataService.login(moneyMember,request);
         return new MsgResult(result);
+    }
+    @RequestMapping("/logout")
+    public MsgResult logout(HttpServletRequest request)throws Exception{
+        Map result = sessionDataService.logout(request);
+        return new MsgResult(result);
+    }
+    @RequestMapping("/register")
+    public MsgResult register(RegisterReq registerReq)throws Exception{
+        MoneyMember moneyMember = BeanConvertUtil.beanConvert(registerReq,MoneyMember.class);
+//        sn不能重复
+        if(moneyMemberService.selectOne(new EntityWrapper<>(moneyMember))!=null){
+            throw new Exception("该学号已被注册");
+        }
+        moneyMember.setId(IDUtils.newID());
+        moneyMember.setType("1");
+        moneyMember.setState("2");//待审核
+        moneyMemberService.insert(moneyMember);
+        return new MsgResult("注册成功，并提交审核，请稍后登入");
     }
 }

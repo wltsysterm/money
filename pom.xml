@@ -67,11 +67,6 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>RELEASE</version>
 		</dependency>
-		<!-- mybatisPlus代码生成模板引擎 -->
-		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
-		</dependency>
 		<!-- mybatis-plus begin -->
 		<dependency>
 			<groupId>com.baomidou</groupId>

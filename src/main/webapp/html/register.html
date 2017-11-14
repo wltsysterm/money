@@ -69,18 +69,8 @@
                                         <input type="password" class="form-control" name="confirm_password" placeholder="请输入密码">
                                     </div>
                                 </div>
-                                <!-- Remember me checkbox and sign in button -->
-                                <div class="form-group">
-                                    <!--<div class="col-lg-9 col-lg-offset-3">-->
-                                        <!--<div class="checkbox">-->
-                                            <!--<label>-->
-                                                <!--<input type="checkbox"> 记住帐号-->
-                                            <!--</label>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                </div>
                                 <div class="col-lg-9 col-lg-offset-2 tc">
-                                    <button type="submit" class="btn btn-danger">注册</button>
+                                    <button type="button" onclick="regist();" class="btn btn-danger">注册</button>
                                     <button type="reset" class="btn btn-default">重置</button>
                                 </div>
                                 <br />
@@ -100,6 +90,7 @@
 <script src="../lib/jQuery/jquery-2.2.3.min.js"></script>
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="../lib/validate/jquery.validate.min.js"></script>
+<script src="../lib/md5.min.js"></script>
 <script src="../js/locale/zh.js"></script>
 <script src="../js/util/future.js"></script>
 <script src="../js/login/register.js"></script>

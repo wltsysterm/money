@@ -1,17 +1,19 @@
 package com.count.money.core.safe.userSafe;
 
+import com.alibaba.fastjson.JSON;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 public class AuthorityInterceptor implements HandlerInterceptor
 {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
 	{
+		System.out.println(getRequestURI(request));
 		SessionData sessionData = loginAuth(request);
 		AppContext.putSession(sessionData);
 		return true;
@@ -34,13 +36,15 @@ public class AuthorityInterceptor implements HandlerInterceptor
 	 * @param request
 	 */
 	private SessionData loginAuth(HttpServletRequest request) throws Exception{
-//		SessionData sessionData = JSON.parseObject(JedisUtil.get(token), SessionData.class);
-//		String name =
-		SessionData sessionData = new SessionData();
+		Object objSessionData = request.getSession().getAttribute("token_money");
+		if(objSessionData==null){
+			throw new Exception("登入信息失效");
+		}
+		SessionData sessionData = (SessionData)objSessionData;//JSON.parseObject(objSessionData.toString(),SessionData.class);
 		if(sessionData==null){
 			throw new Exception("登入信息失效");
 		}
-		return null;
+		return sessionData;
 	}
 
     /**

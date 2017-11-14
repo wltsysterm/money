@@ -1,4 +1,11 @@
 $(function () {
+    var auth = bs.auth();
+    if(!auth){
+        window.location="../html/login.html";
+    }else{
+        bs.authMenu(auth);
+        $(".header-div .user-info .money-greet").html(auth.trueName+"，"+bs.greet());
+    }
     //    点击回到头部
     $(window).scroll(function(){
         if ($(this).scrollTop()>300)
@@ -24,14 +31,33 @@ $(function () {
     })
     $(".logout").on("click",function () {
         var _this = $(this);
-        window.location="../html/login.html";
+        bs.ajax({
+            url : '/future/money/logout',
+            success : function(data) {
+                if(data.state=="success"){
+                    bs.toast("success","登出提示",data.msg);
+                    window.location="../html/login.html";
+                }else if(data.state=="warning"){
+                    bs.toast("warning","登出提示",data.msg);
+                }
+            },
+            error : function(data) {
+                bs.toast("error","系统维护","后台升级中，请联系阿姨");
+            }
+        });
     })
 });
+function initLi() {
+    //隐藏全部功能
+    // $('li[money]').hide();
+}
 function openPage(_this) {
     //验证是否登入
     //打开页面
     var url = _this.attr("href");
-    $("#IndexMainDiv iframe").attr("src","../html/"+url+".html");
+    if($("#IndexMainDiv iframe").attr("src")!=("../html/"+url+".html")){
+        $("#IndexMainDiv iframe").attr("src","../html/"+url+".html");
+    }
 }
 function resizeIframe(iframe) {
     if (iframe) {

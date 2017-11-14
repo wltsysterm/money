@@ -60,3 +60,4 @@
     -moz-transition: All 0.4s ease-in-out;
     -o-transition: All 0.4s ease-in-out;
 }
+li[money]{display: none;}

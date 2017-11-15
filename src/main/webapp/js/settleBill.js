@@ -1,82 +1,108 @@
 $(function () {
+    bs.authCheck();
+    unSettleInfo();
     bs.select("#billproject",[]);
     $(".addbill-section").on("click",".addbill-btn",function () {
         bs.alert({msg:"确定结算所有人员未结账单？",cancelText:"取消"},function () {
-            alert("已经全部结算");
+            bs.ajax({
+                url:"/future/money/settleAllBill",
+                success:function (result) {
+                    if(result && result.code){
+                        bs.toast("error",result.code,result.msg);
+                        return;
+                    }
+                    unSettleInfo();
+                    bs.tableRefresh("#table");
+                    bs.toast("info","结算成功");
+                }
+            });
         });
     })
     bs.table('#table', {
-        // url: "/api/merchantTrade/queryTrade",
-        // toolbar: '#toolbar',
+        url: "/future/money/selectMemberBySn",
         pagination: true,
-        // params: function () {
-        //     return $("#queryTradeForm").serializeObject();
-        // },
-        // pageSize: 5,
-        // pageList: [5, 10],
+        params: function () {
+            return $("#form").serializeObject();
+        },
         height:"100%",
-        data:data,
-        rows:50,
         columns: [{
-            field: 'college',
-            title: '交易状态',
-            align: 'center',
-            width: '150px',
+            field: 'trueName',
+            title: '姓名',
+            align: 'center'
         }, {
             field: 'sn',
-            title: '交易状态',
-            align: 'center',
-            width: '150px',
+            title: '学号',
+            align: 'center'
         }, {
-            field: 'trueName',
-            title: '交易状态',
+            field: 'college',
+            title: '学院',
+            align: 'center'
+        }, {
+            field: 'major',
+            title: '专业',
+            align: 'center'
+        }, {
+            field: 'note',
+            title: '未结金额(￥)',
             align: 'center',
-            width: '150px',
         }, {
             title: '操作',
             width: '150px',
             field: 'state',
             formatter: function (value, row, index) {
-                var html = "<span class='projectmgr-edit-span'><i title='结算' class='glyphicon glyphicon-import' onclick='openModal("+index+");'></i><i title='查看明细' class='glyphicon glyphicon-list' onclick='delModal("+index+");'></i></span>";
+                var html = "";
+                if(row.note!=0) {
+                    html += "<span class='projectmgr-edit-span'><i title='结算' class='glyphicon glyphicon-import' onclick='openModal(" + index + ");'></i></span>";
+                    html += "<span class='projectmgr-edit-span'><i title='查看明细' class='glyphicon glyphicon-list' onclick='openDetModal(" + index + ");'></i></span>";
+                }
                 return html;
             }
         }]
     });
     bs.table('#tabledet', {
-        // url: "/api/merchantTrade/queryTrade",
-        // toolbar: '#toolbar',
+        url: "/future/money/selectUnsettleDetByMember",
+        params: function () {
+            return $("#formdet").serializeObject();
+        },
         pagination: true,
-        // params: function () {
-        //     return $("#queryTradeForm").serializeObject();
-        // },
-        // pageSize: 5,
-        // pageList: [5, 10],
         height:"100%",
-        data:data,
-        total:50,
         columns: [{
-            field: 'college',
-            title: '交易状态',
-            align: 'center',
-            width: '150px',
+            field: 'projectName',
+            title: '项目名称',
+            align: 'center'
         }, {
-            field: 'sn',
-            title: '交易状态',
-            align: 'center',
-            width: '150px',
+            field: 'projectPrice',
+            title: '收费标准(￥)',
+            align: 'center'
         }, {
-            field: 'trueName',
-            title: '交易状态',
-            align: 'center',
-            width: '150px',
+            field: 'projectCount',
+            title: '数量',
+            align: 'center'
+        }, {
+            field: 'createTime',
+            title: '创建时间',
+            align: 'center'
         }]
     });
+    $("#form .selectMember").on("click",function () {
+        bs.tableRefresh("#table");
+    });
 });
+function unSettleInfo() {
+    bs.ajax({
+        url:"/future/money/selectUnsettleBill",
+        success:function (result) {
+            $(".addbill-section .unsettlemoney").html(result.projectPrice);
+            $(".addbill-section .unsettlecount").html(result.projectCount);
+        }
+    });
+}
 
-
-function delModal(index){
+function openDetModal(index){
     var row = bs.tableRow("#table",index);
     var width=window.innerWidth-10;
+    $("#formdet input[name=id]").val(row.id);
+    bs.tableRefresh("#tabledet");
     bs.submitForm({
         title:"title",
         single:true,
@@ -84,61 +110,31 @@ function delModal(index){
         width:width,
         height:260
     });
-    bs.resetDlgTitle("detdiv",JSON.stringify(row));
+    bs.resetDlgTitle("detdiv","账单明细-"+row.trueName);
 }
 
 function openModal(index){
-    var row = bs.tableRow("#table",index)
-    bs.alert({msg:"确定结算【"+JSON.stringify(row)+"】",cancelText:"取消"},function () {
-        alert("settle over");
-    })
-    // bs.resetDlgPosition("form");
+    var row = bs.tableRow("#table",index);
+    var list = new Array();
+    list.push(row.id);
+    bs.alert({msg:"确定结算【"+row.trueName+"】账单？请确保财务已结清",cancelText:"取消"},function () {
+        bs.ajax({
+            url:"/future/money/settleBillByMembers",
+            data:list,
+            contentType:true,
+            success:function (result) {
+                if(result && result.code){
+                    bs.toast("error",result.code,result.msg);
+                    return;
+                }
+                unSettleInfo();
+                bs.tableRefresh("#table");
+                bs.toast("info","结算成功");
+            }
+        });
+    });
 }
 
 window.parent.onscroll = function() {
-    bs.resetDlgPositionByState("test");
+    bs.resetDlgPositionByState("detdiv");
 }
-// window.onscroll = function() {
-//     console.log("窗口发生改变了哟！");
-// }
-// $(window).resize(function() {
-//     $('body').find('.box').css('height',window.innerHeight - 10);
-// });
-window.onresize = function(){
-
-}
-function resizeIframe(iframe) {
-    if (iframe) {
-        var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
-        if (iframeWin.document.body) {
-            console.log(iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight);
-            iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
-        }
-    }
-}
-    var data = [
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111}
-];

@@ -1,28 +1,17 @@
-package com.count.money.po;
+package com.count.money.controller.req;
 
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
 import javax.validation.constraints.NotNull;
 
-@TableName("future_money_bill")
-public class MoneyBill {
-    @TableId
+public class BillReq {
     private String id;
-    @TableField("project_name")
+    @NotNull(message = "项目不能为空")
     private String projectName;
-    @TableField("project_price")
+    @NotNull(message = "收费标准不能为空")
     private String projectPrice;
-    @TableField("project_count")
+    @NotNull(message = "数量不能为空")
     private String projectCount;
-    @TableField("member_id")
     private String memberId;
-    @TableField("state")
     private String state;
-    @TableField("create_time")
-    private String createTime;
-    @TableField("settle_time")
-    private String settleTime;
     public String getId() {
         return id;
     }
@@ -69,21 +58,5 @@ public class MoneyBill {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getSettleTime() {
-        return settleTime;
-    }
-
-    public void setSettleTime(String settleTime) {
-        this.settleTime = settleTime;
     }
 }

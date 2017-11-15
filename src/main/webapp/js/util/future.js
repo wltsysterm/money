@@ -755,6 +755,7 @@ bs.alert = function (options, handler) {
     });
 
     $(dialogId).modal('show');
+    bs.resetDlgPosition(randId);
 };
 
 /**
@@ -794,7 +795,7 @@ bs.apiRoot = function () {
  * }
  */
 bs.ajax = function (option) {
-    $.ajax({
+    var ajaxjson = {
         type : option.type==null?"POST":option.type,
         url : bs.apiRoot()+option.url,
         dataType : 'json',
@@ -812,7 +813,12 @@ bs.ajax = function (option) {
                 bs.toast('error',xhr.status,xhr.statusText);
             }
         }
-    });
+    };
+    if(option.contentType){
+        ajaxjson.contentType="application/json";
+        ajaxjson.data=JSON.stringify(option.data);
+    }
+    $.ajax(ajaxjson);
 };
 
 /**
@@ -1099,6 +1105,23 @@ bs.authMenu = function (auth) {
         return true;
     }
 };
+bs.validMoney=function(money,flag) {
+    var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+    if(reg.test(money))
+        return true;
+    if(flag)
+        bs.toast("warning","金额格式出错(最高精度0.00)");
+    return false;
+}
+bs.validNumber=function(money,flag){
+    var reg = /^[1-9]\d*$/;
+    if(reg.test(money))
+        return true;
+    if(flag)
+        bs.toast("warning","数量格式出错(只能为正整数)");
+    return false;
+}
+
 function logoutAuto() {
     setTimeout(function () {
         toLogin();

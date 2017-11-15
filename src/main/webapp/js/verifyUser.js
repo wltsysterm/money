@@ -62,7 +62,7 @@ $(function () {
         }]
     });
     $("#form .selectMember").on("click",function () {
-        bs.tableRefresh("table");
+        bs.tableRefresh("#table");
     });
 });
 
@@ -71,10 +71,9 @@ function verify(index){
     $("#verify")[0].reset();
     bs.submitForm({
         id:"verify",
-        // isClear:true
     },function () {
         bs.toast("success","","操作成功");
-        bs.tableRefresh("table");
+        bs.tableRefresh("#table");
     },function () {
         $("#verify input[name=id]").val(row.id);
     });

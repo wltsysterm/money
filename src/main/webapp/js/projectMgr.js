@@ -1,5 +1,8 @@
 $(function () {
+    bs.authCheck();
     bs.select("#billproject",[]);
+    $("#form").validate(paramValid);
+    $("#updateform").validate(paramValid);
     $(".addbill-section").on("click",".addbill-btn",function () {
         bs.submitForm({
             id:"form",
@@ -7,8 +10,14 @@ $(function () {
             title:"新建项目",
             width:400
         },function (result) {
+            if(result && result.code){
+                bs.toast("error",result.code,result.msg);
+                return;
+            }
             bs.tableRefresh('#table');
-            bs.toast("info","添加成功")
+            bs.toast("info","添加成功");
+        },function () {
+            return bs.validMoney($("#form input[name=projectPrice]").val(),true);
         });
     })
     bs.table('#table', {
@@ -58,49 +67,32 @@ function update(index){
     bs.submitForm({
         title:"修改项目",
         id:"updateform",
-        // isClear:true,
         width:400
     },function (result) {
+        if(result && result.code){
+            bs.toast("error",result.code,result.msg);
+            return;
+        }
         bs.tableRefresh('#table');
-        bs.toast("info","修改成功")
+        bs.toast("info","修改成功");
+    },function () {
+        return bs.validMoney($("#updateform input[name=projectPrice]").val(),true);
     });
 }
 window.parent.onscroll = function() {
     bs.resetDlgPositionByState("updateform");
     bs.resetDlgPositionByState("form");
 }
-function resizeIframe(iframe) {
-    if (iframe) {
-        var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
-        if (iframeWin.document.body) {
-            console.log(iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight);
-            iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+var paramValid={
+    rules:{
+        projectName:{
+            required: true,
+        },
+        projectPrice:{
+            required:true
         }
+
+    },
+    messages:{
     }
-}
-    var data = [
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    // {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111},
-    {college:111,sn:111,trueName:1111}
-];
+};

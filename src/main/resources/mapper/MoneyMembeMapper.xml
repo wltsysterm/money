@@ -3,5 +3,29 @@
 
 <!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
 <mapper namespace="com.count.money.dao.MoneyMemberDao">
-
+    <select id="selectMemberBySn" parameterType="java.util.HashMap" resultType="com.count.money.po.MoneyMember">
+        select IFNULL(a.note,0) as note,b.true_name as trueName,b.college,b.sn,b.major,b.id from (
+        select sum(a.project_price*a.project_count) as note ,max(a.member_id) member_id from future_money_bill a where a.state=1 GROUP BY a.member_id
+        ) a
+        RIGHT JOIN future_money_member b on a.member_id = b.id
+        WHERE b.type=1 and b.state=1
+        <if test="sn!=null and sn!=''">
+            and b.sn=#{sn}
+        </if>
+        ORDER BY  a.note desc
+        limit #{pageStart},#{pageSize}
+    </select>
+    <select id="selectMemberCountBySn" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        SELECT count(*) from (
+        select a.note,b.true_name as trueName,b.college,b.sn,b.major,b.id from (
+        select sum(a.project_price*a.project_count) as note ,max(a.member_id) member_id from future_money_bill a where a.state=1 GROUP
+        BY a.member_id
+        ) a
+        RIGHT JOIN future_money_member b on a.member_id = b.id
+        WHERE b.type=1 and b.state=1
+        <if test="sn!=null and sn!=''">
+            and b.sn=#{sn}
+        </if>
+        ) a
+    </select>
 </mapper>

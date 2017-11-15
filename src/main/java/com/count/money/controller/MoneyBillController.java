@@ -2,13 +2,11 @@ package com.count.money.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.count.money.controller.req.LoginReq;
-import com.count.money.controller.req.RegisterReq;
-import com.count.money.controller.req.VerifyReq;
-import com.count.money.controller.req.VerifySelectReq;
+import com.count.money.controller.req.*;
 import com.count.money.controller.resp.AuthResp;
 import com.count.money.core.common.MsgResult;
 import com.count.money.core.common.PageReq;
+import com.count.money.core.common.PageResult;
 import com.count.money.core.safe.login.SessionDataService;
 import com.count.money.core.safe.userSafe.AppContext;
 import com.count.money.core.safe.userSafe.SessionData;
@@ -19,11 +17,13 @@ import com.count.money.service.IMoneyBillService;
 import com.count.money.service.IMoneyMemberService;
 import com.count.money.service.IMoneyProjectService;
 import com.count.money.util.BeanConvertUtil;
+import com.count.money.util.CommonUtil;
 import com.count.money.util.DateUtil;
 import com.count.money.util.IDUtils;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,10 +41,18 @@ public class MoneyBillController {
     @Autowired
     private SessionDataService sessionDataService;
     @RequestMapping("/addBill")
-    public MsgResult addBill(MoneyBill moneyBill){
+    public MsgResult addBill(BillReq billReq)throws Exception{
+        if(!CommonUtil.isMoney(billReq.getProjectPrice())){
+            throw new Exception("金额格式出错(最高精度0.00)");
+        }
+        if(!CommonUtil.isNumber(billReq.getProjectCount())){
+            throw new Exception("数量格式出错(只能为正整数)");
+        }
+        MoneyBill moneyBill = BeanConvertUtil.beanConvert(billReq,MoneyBill.class);
         moneyBill.setId(IDUtils.newID());
         SessionData sessionData = AppContext.getSession();
         moneyBill.setMemberId(sessionData.getId());
+        moneyBill.setCreateTime(DateUtil.getCurrentTimeFull());
         moneyBill.setState("1");
         moneyBillService.insert(moneyBill);
         return new MsgResult();
@@ -56,10 +64,69 @@ public class MoneyBillController {
         MoneyBill moneyBill = new MoneyBill();
         moneyBill.setMemberId(sessionData.getId());
         Page page = new Page(pageReq.getPageNo(),pageReq.getPageSize());
-        page = moneyBillService.selectPage(page,new EntityWrapper<>(moneyBill));
+        EntityWrapper ew = new EntityWrapper<>(moneyBill);
+        ew.orderBy("settle_time asc,create_time desc");
+        page = moneyBillService.selectPage(page,ew);
         return new MsgResult(BeanConvertUtil.pageConvert(page,MoneyBill.class));
     }
-
+    @RequestMapping("/selectUnsettleDetByMember")
+    public MsgResult selectUnsettleDetByMember(PageReq pageReq,String id) throws Exception {
+        MoneyBill moneyBill = new MoneyBill();
+        moneyBill.setMemberId(id);
+        moneyBill.setState("1");
+        Page page = new Page(pageReq.getPageNo(),pageReq.getPageSize());
+        EntityWrapper ew = new EntityWrapper<>(moneyBill);
+        ew.orderBy("create_time",false);
+        page = moneyBillService.selectPage(page,ew);
+        return new MsgResult(BeanConvertUtil.pageConvert(page,MoneyBill.class));
+    }
+    @RequestMapping("/selectUnsettleBillByMember")
+    public MsgResult selectUnsettleBillByMember() throws Exception {
+        SessionData sessionData = AppContext.getSession();
+        MoneyBill moneyBill = new MoneyBill();
+        moneyBill.setMemberId(sessionData.getId());
+        EntityWrapper ew = new EntityWrapper<>(moneyBill);
+        moneyBill.setState("1");
+        ew.setSqlSelect("ifNull(sum(project_price*project_count),0) as projectPrice,count(project_price) as projectCount");
+        return new MsgResult(moneyBillService.selectOne(ew));
+    }
+    @RequestMapping("/selectUnsettleBill")
+    public MsgResult selectUnsettleBill() throws Exception {
+        MoneyBill moneyBill = new MoneyBill();
+        EntityWrapper ew = new EntityWrapper<>(moneyBill);
+        moneyBill.setState("1");
+        ew.setSqlSelect("ifNull(sum(project_price*project_count),0) as projectPrice,count(project_price) as projectCount");
+        return new MsgResult(moneyBillService.selectOne(ew));
+    }
+    @RequestMapping("/settleBillByMembers")
+    public MsgResult settleBillByMembers(@RequestBody List<String> list){
+        MoneyBill moneyBill = new MoneyBill();
+        moneyBill.setState("2");
+        moneyBill.setSettleTime(DateUtil.getCurrentTimeFull());
+        EntityWrapper ew = new EntityWrapper();
+        ew.in("member_id",list);
+        moneyBillService.update(moneyBill,ew);
+        return new MsgResult();
+    }
+    @RequestMapping("/settleAllBill")
+    public MsgResult settleAllBill(){
+        MoneyMember moneyMember = new MoneyMember();
+        moneyMember.setState("1");
+        moneyMember.setType("1");
+        EntityWrapper wrapper = new EntityWrapper(moneyMember);
+        List<MoneyMember> memberList= moneyMemberService.selectList(wrapper);
+        List<String> list = new ArrayList<>();
+        for(MoneyMember tmp:memberList){
+            list.add(tmp.getId());
+        }
+        MoneyBill moneyBill = new MoneyBill();
+        moneyBill.setState("2");
+        moneyBill.setSettleTime(DateUtil.getCurrentTimeFull());
+        EntityWrapper ew = new EntityWrapper();
+        ew.in("member_id",list);
+        moneyBillService.update(moneyBill,ew);
+        return new MsgResult();
+    }
     @RequestMapping("/deleteBill")
     public MsgResult deleteBill(List<String> list){
         List<MoneyBill> moneyBills = new ArrayList<>();
@@ -73,8 +140,17 @@ public class MoneyBillController {
         return new MsgResult();
     }
     @RequestMapping("/addProject")
-    public MsgResult addProject(MoneyProject moneyProject)throws Exception{
-        if(moneyProjectService.selectOne(new EntityWrapper<MoneyProject>(moneyProject))!=null){
+    public MsgResult addProject(ProjectReq projectReq)throws Exception{
+        authCheck();
+        if(!CommonUtil.isMoney(projectReq.getProjectPrice())){
+            throw new Exception("金额格式出错(最高精度0.00)");
+        }
+        MoneyProject moneyProject = BeanConvertUtil.beanConvert(projectReq,MoneyProject.class);
+        MoneyProject tmp = new MoneyProject();
+        EntityWrapper entityWrapper = new EntityWrapper<>(tmp);
+        tmp.setProjectName(moneyProject.getProjectName());
+        tmp.setState("1");
+        if(moneyProjectService.selectOne(entityWrapper)!=null){
             throw new Exception("项目名已存在");
         }
         moneyProject.setId(IDUtils.newID());
@@ -89,6 +165,10 @@ public class MoneyBillController {
         moneyProject.setState("1");
         return new MsgResult(moneyProjectService.selectList(new EntityWrapper<>(moneyProject)));
     }
+    @RequestMapping("/selectProjectByID")
+    public MsgResult selectProjectByID(String id){
+        return new MsgResult(moneyProjectService.selectById(id));
+    }
     @RequestMapping("/selectProjectByPage")
     public MsgResult selectProjectByPage(PageReq pageReq) throws Exception {
         MoneyProject moneyProject = new MoneyProject();
@@ -98,12 +178,28 @@ public class MoneyBillController {
         return new MsgResult(BeanConvertUtil.pageConvert(page,MoneyProject.class));
     }
     @RequestMapping("/updateProject")
-    public MsgResult updateProject(MoneyProject moneyProject){
+    public MsgResult updateProject(ProjectReq projectReq)throws Exception{
+        authCheck();
+        if(!CommonUtil.isMoney(projectReq.getProjectPrice())){
+            throw new Exception("金额格式出错(最高精度0.00)");
+        }
+        MoneyProject moneyProject = BeanConvertUtil.beanConvert(projectReq,MoneyProject.class);
+
+        MoneyProject tmp = new MoneyProject();
+        EntityWrapper entityWrapper = new EntityWrapper<>(tmp);
+        tmp.setProjectName(moneyProject.getProjectName());
+        tmp.setState("1");
+        tmp=moneyProjectService.selectOne(entityWrapper);
+        if(tmp!=null && !(tmp.getId().equals(projectReq.getId()))){
+            throw new Exception("项目名已存在");
+        }
+
         moneyProjectService.updateById(moneyProject);
         return new MsgResult();
     }
     @RequestMapping("/deleteProject")
-    public MsgResult deleteProject(MoneyProject moneyProject){
+    public MsgResult deleteProject(MoneyProject moneyProject)throws Exception{
+        authCheck();
         moneyProject.setDeleteTime(DateUtil.getCurrentTimeFull());
         moneyProject.setState("2");
         moneyProjectService.updateById(moneyProject);
@@ -167,33 +263,55 @@ public class MoneyBillController {
         }else{
             entityWrapper.notIn("state","4");
         }
-        if(StringUtils.isEmpty(verifySelectReq.getCollege())){
+        if(!StringUtils.isEmpty(verifySelectReq.getCollege())){
             entityWrapper.like("college", verifySelectReq.getCollege());
         }
-        if(StringUtils.isEmpty(verifySelectReq.getMajor())){
+        if(!StringUtils.isEmpty(verifySelectReq.getMajor())){
             entityWrapper.like("major", verifySelectReq.getMajor());
         }
-        if(StringUtils.isEmpty(verifySelectReq.getSn())){
+        if(!StringUtils.isEmpty(verifySelectReq.getSn())){
             entityWrapper.like("sn", verifySelectReq.getSn());
         }
-        entityWrapper.orderBy("create_time",false);
+        if(!StringUtils.isEmpty(verifySelectReq.getTrueName())){
+            entityWrapper.like("true_name", verifySelectReq.getTrueName());
+        }
+        entityWrapper.orderBy("verify_time asc,create_time",false);
         Page page = new Page(pageReq.getPageNo(),pageReq.getPageSize());
         return new MsgResult(BeanConvertUtil.pageConvert(moneyMemberService.selectPage(page,entityWrapper),MoneyMember.class));
     }
+    @RequestMapping("/selectMemberBySn")
+    public MsgResult selectMemberBySn(PageReq pageReq,String sn)throws Exception{
+        Map map = new HashMap();
+        map.put("sn",sn);
+        map.put("pageStart",(pageReq.getPageNo()-1)*pageReq.getPageSize());
+        map.put("pageSize",pageReq.getPageSize());
+        PageResult pageResult = new PageResult();
+        pageResult.setRows(moneyMemberService.selectMemberBySn(map));
+        pageResult.setTotal(moneyMemberService.selectMemberCountBySn(map));
+        return new MsgResult(pageResult);
+    }
     @RequestMapping("/verify")
     public MsgResult verify(VerifyReq verifyReq)throws Exception{
+        authCheck();
         MoneyMember moneyMember = BeanConvertUtil.beanConvert(verifyReq,MoneyMember.class);
         moneyMember.setVerifyTime(DateUtil.getCurrentTimeFull());
         moneyMemberService.updateById(moneyMember);
         return new MsgResult();
     }
     @RequestMapping("/deleteMember")
-    public MsgResult deleteMember(String id){
+    public MsgResult deleteMember(String id)throws Exception{
+        authCheck();
         MoneyMember moneyMember = new MoneyMember();
         moneyMember.setId(id);
         moneyMember.setDeleteTime(DateUtil.getCurrentTimeFull());
         moneyMember.setState("4");
         moneyMemberService.updateById(moneyMember);
         return new MsgResult();
+    }
+    public boolean authCheck()throws Exception{
+        SessionData sessionData = AppContext.getSession();
+        if(sessionData.getType().equals("3")||sessionData.getType().equals("2"))
+            return true;
+        throw new Exception("您无权限操作！");
     }
 }

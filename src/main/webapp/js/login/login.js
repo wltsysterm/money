@@ -22,7 +22,7 @@ function submitLogin() {
         data: $('#loginform').serialize(),
         success : function(data) {
             if(data.state=="ok"){
-                window.location="/";
+                window.location="../../html/main.html";
             }else{
                 bs.toast("warning",data.code,data.msg);
             }

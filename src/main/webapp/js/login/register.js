@@ -23,6 +23,7 @@ function regist() {
         data: $('#registerform').serialize(),
         success : function(data) {
             $("#registerform input[name='password']").val("");
+            $("#registerform input[name='confirm_password']").val("");
             if(data.code){
                 bs.toast("error","注册提示",data.msg);
             }else{
@@ -32,6 +33,7 @@ function regist() {
         },
         error : function(data) {
             $("#registerform input[name='password']").val("");
+            $("#registerform input[name='confirm_password']").val("");
             bs.toast("error","系统维护","后台升级中，请联系阿姨");
         }
     });

@@ -85,6 +85,7 @@ $(function () {
         }]
     });
     $("#form .selectMember").on("click",function () {
+        unSettleInfo();
         bs.tableRefresh("#table");
     });
 });

@@ -1121,7 +1121,14 @@ bs.validNumber=function(money,flag){
         bs.toast("warning","数量格式出错(只能为正整数)");
     return false;
 }
-
+bs.errorHandle=function (result,tabbleId,msg) {
+    if(result && result.code){
+        bs.toast("error",result.code,result.msg);
+        return;
+    }
+    bs.tableRefresh(tabbleId?tabbleId:'#table');
+    bs.toast("info",msg?msg:"操作成功");
+}
 function logoutAuto() {
     setTimeout(function () {
         toLogin();

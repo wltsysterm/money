@@ -10,12 +10,7 @@ $(function () {
             title:"新建项目",
             width:400
         },function (result) {
-            if(result && result.code){
-                bs.toast("error",result.code,result.msg);
-                return;
-            }
-            bs.tableRefresh('#table');
-            bs.toast("info","添加成功");
+            bs.errorHandle(result,null,"添加成功");
         },function () {
             return bs.validMoney($("#form input[name=projectPrice]").val(),true);
         });
@@ -51,8 +46,7 @@ function delModal(index){
             url:"/future/money/deleteProject",
             data:{id:row.id},
             success:function (data) {
-                bs.tableRefresh("#table");
-                bs.toast("info","删除成功")
+                bs.errorHandle(data,null,"删除成功");
             }
         }
         );
@@ -69,12 +63,7 @@ function update(index){
         id:"updateform",
         width:400
     },function (result) {
-        if(result && result.code){
-            bs.toast("error",result.code,result.msg);
-            return;
-        }
-        bs.tableRefresh('#table');
-        bs.toast("info","修改成功");
+        bs.errorHandle(result,null,"修改成功");
     },function () {
         return bs.validMoney($("#updateform input[name=projectPrice]").val(),true);
     });

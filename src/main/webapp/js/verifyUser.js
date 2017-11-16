@@ -71,9 +71,8 @@ function verify(index){
     $("#verify")[0].reset();
     bs.submitForm({
         id:"verify",
-    },function () {
-        bs.toast("success","","操作成功");
-        bs.tableRefresh("#table");
+    },function (result) {
+        bs.errorHandle(result);
     },function () {
         $("#verify input[name=id]").val(row.id);
     });
@@ -88,8 +87,7 @@ function delModal(index){
                 url:"/future/money/deleteMember",
                 data:{id:row.id},
                 success:function (data) {
-                    bs.tableRefresh("#table");
-                    bs.toast("info","删除成功")
+                    bs.errorHandle(data,null,"删除成功");
                 }
             }
         );

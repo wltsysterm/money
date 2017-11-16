@@ -10,7 +10,7 @@
     padding:0;
     font-size: 20px;
 }
-#IndexMainDiv .aside-nav li:first-child {
+#IndexMainDiv .aside-nav li{
     margin-top: 10px;
 }
 #IndexMainDiv .aside-nav li:last-child {

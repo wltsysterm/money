@@ -74,6 +74,7 @@ public class MoneyBillController {
     }
     @RequestMapping("/selectUnsettleDetByMember")
     public MsgResult selectUnsettleDetByMember(PageReq pageReq,String id) throws Exception {
+        authCheck();
         MoneyBill moneyBill = new MoneyBill();
         moneyBill.setMemberId(id);
         moneyBill.setState("1");
@@ -86,6 +87,7 @@ public class MoneyBillController {
 
     @RequestMapping("/selectCurrentSituation")
     public MsgResult selectCurrentSituation() throws Exception {
+        authCheck();
         Map map = new HashMap();
         map.put("currentDate",DateUtil.getCurrentDate10());
         return new MsgResult(filledDataSource(moneyBillService.selectCurrentSituation(map)));
@@ -131,6 +133,7 @@ public class MoneyBillController {
     }
     @RequestMapping("/selectUnsettleBill")
     public MsgResult selectUnsettleBill() throws Exception {
+        authCheck();
         MoneyBill moneyBill = new MoneyBill();
         EntityWrapper ew = new EntityWrapper<>(moneyBill);
         moneyBill.setState("1");
@@ -138,7 +141,8 @@ public class MoneyBillController {
         return new MsgResult(moneyBillService.selectOne(ew));
     }
     @RequestMapping("/settleBillByMembers")
-    public MsgResult settleBillByMembers(@RequestBody List<String> list){
+    public MsgResult settleBillByMembers(@RequestBody List<String> list)throws Exception{
+        authCheck();
         MoneyBill moneyBill = new MoneyBill();
         moneyBill.setState("2");
         moneyBill.setSettleTime(DateUtil.getCurrentTimeFull());
@@ -148,7 +152,8 @@ public class MoneyBillController {
         return new MsgResult();
     }
     @RequestMapping("/settleAllBill")
-    public MsgResult settleAllBill(){
+    public MsgResult settleAllBill()throws Exception{
+        authCheck();
         MoneyMember moneyMember = new MoneyMember();
         moneyMember.setState("1");
         moneyMember.setType("1");
@@ -166,18 +171,7 @@ public class MoneyBillController {
         moneyBillService.update(moneyBill,ew);
         return new MsgResult();
     }
-    @RequestMapping("/deleteBill")
-    public MsgResult deleteBill(List<String> list){
-        List<MoneyBill> moneyBills = new ArrayList<>();
-        for(String id:list){
-            MoneyBill moneyBill = new MoneyBill();
-            moneyBill.setState("2");
-            moneyBill.setId(id);
-            moneyBills.add(moneyBill);
-        }
-        moneyBillService.updateBatchById(moneyBills);
-        return new MsgResult();
-    }
+
     @RequestMapping("/addProject")
     public MsgResult addProject(ProjectReq projectReq)throws Exception{
         authCheck();
@@ -205,11 +199,13 @@ public class MoneyBillController {
         return new MsgResult(moneyProjectService.selectList(new EntityWrapper<>(moneyProject)));
     }
     @RequestMapping("/selectProjectByID")
-    public MsgResult selectProjectByID(String id){
+    public MsgResult selectProjectByID(String id)throws Exception{
+        authCheck();
         return new MsgResult(moneyProjectService.selectById(id));
     }
     @RequestMapping("/selectProjectByPage")
     public MsgResult selectProjectByPage(PageReq pageReq) throws Exception {
+        authCheck();
         MoneyProject moneyProject = new MoneyProject();
         moneyProject.setState("1");
         Page page = new Page<MoneyProject>(pageReq.getPageNo(),pageReq.getPageSize());
@@ -320,6 +316,7 @@ public class MoneyBillController {
     }
     @RequestMapping("/selectMemberByPage")
     public MsgResult selectMemberByPage(PageReq pageReq,VerifySelectReq verifySelectReq)throws Exception{
+        authCheck();
         MoneyMember moneyMember = new MoneyMember();
         moneyMember.setType("1");//只展示普通的用户
         EntityWrapper entityWrapper = new EntityWrapper(moneyMember);
@@ -346,6 +343,7 @@ public class MoneyBillController {
     }
     @RequestMapping("/selectMemberBySn")
     public MsgResult selectMemberBySn(PageReq pageReq,String sn)throws Exception{
+        authCheck();
         Map map = new HashMap();
         map.put("sn",sn);
         map.put("pageStart",(pageReq.getPageNo()-1)*pageReq.getPageSize());

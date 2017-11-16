@@ -51,6 +51,11 @@ $(function () {
         _this.addClass("current");
         openPage(_this);
     })
+
+    //iframe初始化
+    document.getElementById('contentIframe').onload = function(){
+        resizeIframe(this);
+    }
 });
 
 function openPage(_this) {

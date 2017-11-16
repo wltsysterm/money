@@ -57,7 +57,12 @@ $(function () {
         resizeIframe(this);
     }
 });
-
+function right() {
+    $("#qrcode").animate({"left":0},500);
+}
+function left() {
+    $("#qrcode").animate({"left":-100},500);
+}
 function openPage(_this) {
     //验证是否登入
     //打开页面

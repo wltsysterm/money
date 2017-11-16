@@ -26,7 +26,14 @@ public class DateUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         return sdf.format(new Date());
     }
-
+    /**
+     * 获取当前时间，yyyy-MM-dd
+     * @return
+     */
+    public static String getCurrentDate10(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(new Date());
+    }
     public static boolean compareDate(String startDate,String endDate) throws ParseException {
         if (startDate != null) {
             if (startDate.length() != 0) {

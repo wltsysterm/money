@@ -3,4 +3,12 @@
 
 <!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
 <mapper namespace="com.count.money.dao.MoneyBillDao">
+    <select id="selectCurrentSituation" parameterType="java.util.Map" resultType="java.util.Map">
+        select substring(t.create_time,12,2) AS HOUR ,sum(t.project_count*t.project_price) as CNT
+		from future_money_bill t
+		where substring(t.create_time,1,10) = #{currentDate}
+		and t.state=1
+		group by substring(t.create_time,12,2)
+		order by substring(t.create_time,12,2)
+    </select>
 </mapper>

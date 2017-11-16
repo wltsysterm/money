@@ -1,4 +1,3 @@
-var summary;
 var option;
 var summaryChart;
 var worldMapContainer;
@@ -17,28 +16,22 @@ $(function () {
 
 //按收入类别统计
 function initSummaryChart(){
-    var xAry = [1,2,3,4,5,6];
-    var y1Ary = [1,2,3,4,5,6];
-    var y2Ary = [8,8,8,8,8,8];
-    // bs.ajax({
-    //     url : '/api/home/list',
-    //     async:false,
-    //     success:function (result) {
-    //         summary.result = result;
-    //         for (var x = 0 ; x<result.orderNums.length;x++) {
-    //             var row = result.orderNums[x];
-    //             xAry.push(row.HOUR);
-    //             y1Ary.push(row.CNT);
-    //         }
-    //         for (var y = 0 ; y<result.successNums.length;y++) {
-    //             var row = result.successNums[y];
-    //             y2Ary.push(row.CNT);
-    //         }
-    //     }
-    // });
+    var xAry = [];
+    var y1Ary = [];
+    bs.ajax({
+        url : '/future/money/selectCurrentSituation',
+        async:false,
+        success:function (result) {
+            for (var x = 0 ; x<result.length;x++) {
+                var row = result[x];
+                xAry.push(row.HOUR);
+                y1Ary.push(row.CNT);
+            }
+        }
+    });
     option = {
         title : {
-            text: '',
+            text: '今天未结算账单趋势',
             subtext: ''
         },
         tooltip : {

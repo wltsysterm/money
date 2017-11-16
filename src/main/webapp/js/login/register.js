@@ -22,6 +22,7 @@ function regist() {
         url : '/future/money/register',
         data: $('#registerform').serialize(),
         success : function(data) {
+            $("#registerform input[name='password']").val("");
             if(data.code){
                 bs.toast("error","注册提示",data.msg);
             }else{
@@ -30,6 +31,35 @@ function regist() {
             }
         },
         error : function(data) {
+            $("#registerform input[name='password']").val("");
+            bs.toast("error","系统维护","后台升级中，请联系阿姨");
+        }
+    });
+}
+function reregist() {
+    if(!$('#registerform').valid()){
+        $('#registerform').removeClass('animated fadeInDownBig').addClass('animated shake').
+        one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            $(this).removeClass('animated shake');
+        });
+        return;
+    }
+    var pwd = $("#registerform input[name='password']").val();
+    $("#registerform input[name='password']").val(md5(pwd));
+    bs.ajax({
+        url : '/future/money/reRegister',
+        data: $('#registerform').serialize(),
+        success : function(data) {
+            $("#registerform input[name='password']").val("");
+            if(data.code){
+                bs.toast("error","申诉提示",data.msg);
+            }else{
+                bs.toast("success","申诉提示",data);
+                logoutAuto();
+            }
+        },
+        error : function(data) {
+            $("#registerform input[name='password']").val("");
             bs.toast("error","系统维护","后台升级中，请联系阿姨");
         }
     });

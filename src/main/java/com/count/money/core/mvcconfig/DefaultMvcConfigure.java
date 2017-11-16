@@ -47,7 +47,7 @@ public class DefaultMvcConfigure extends WebMvcConfigurerAdapter {
          * addPathPatterns 用于添加拦截规则
          * excludePathPatterns 用户排除拦截
          */
-        registry.addInterceptor(getMyInterceptor()).addPathPatterns("/money/**").excludePathPatterns("/money/login","/money/logout","/money/register");
+        registry.addInterceptor(getMyInterceptor()).addPathPatterns("/money/**").excludePathPatterns("/money/login","/money/logout","/money/register","/money/reRegister");
 //        registry.addInterceptor(new CustomInterceptor2()).addPathPatterns("/*").excludePathPatterns("/");
         super.addInterceptors(registry);
     }

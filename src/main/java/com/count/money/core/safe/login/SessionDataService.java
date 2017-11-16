@@ -35,6 +35,12 @@ public class SessionDataService {
         }else if(moneyMember1.getState().equals("2")){
             map.put("state","fail");
             map.put("msg","该用户待审核中，请稍后登入");
+        }else if(moneyMember1.getState().equals("3")){
+            map.put("state","fail");
+            map.put("msg","审核未过："+moneyMember1.getNote());
+        }else if(moneyMember1.getState().equals("4")){
+            map.put("state","fail");
+            map.put("msg","此账号已销户");
         }
         return map;
     }

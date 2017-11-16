@@ -32,6 +32,9 @@ import java.util.*;
 @RestController
 @RequestMapping("/money")
 public class MoneyBillController {
+//    1、bill状态：1未结算2结算
+//    2、member状态：1审核通过2待审核3审核未过4删除
+//    3、project状态：1正常2删除
     @Autowired
     private IMoneyBillService moneyBillService;
     @Autowired
@@ -80,6 +83,42 @@ public class MoneyBillController {
         page = moneyBillService.selectPage(page,ew);
         return new MsgResult(BeanConvertUtil.pageConvert(page,MoneyBill.class));
     }
+
+    @RequestMapping("/selectCurrentSituation")
+    public MsgResult selectCurrentSituation() throws Exception {
+        Map map = new HashMap();
+        map.put("currentDate",DateUtil.getCurrentDate10());
+        return new MsgResult(filledDataSource(moneyBillService.selectCurrentSituation(map)));
+    }
+    private List<Map<String,Object>> filledDataSource(List<Map<String,Object>> srcList) {
+        List<Map<String,Object>> filledList = new ArrayList<>();
+        for (int i = 0 ; i < 24 ; i++) {
+            String key = String.valueOf(i);
+            if (i < 10) key = "0" + key;
+            Map<String,Object> result = this.isContainKey(key,srcList);
+            filledList.add(result);
+        }
+        return  filledList;
+    }
+
+    private Map<String,Object> isContainKey(String key ,List<Map<String,Object>> orderNumsList) {
+        boolean flag = false;
+        Map<String,Object> containData = new HashMap<>();
+        for (Map<String,Object> temp: orderNumsList) {
+            String hour = (String) temp.get("HOUR");
+            if (key.equals(hour)) {
+                flag = true;
+                containData = temp;
+            }
+        }
+        if (!flag) {
+            containData.put("HOUR",key);
+            containData.put("CNT",0);
+        }
+        containData.put("flag",flag);
+        return containData;
+    }
+
     @RequestMapping("/selectUnsettleBillByMember")
     public MsgResult selectUnsettleBillByMember() throws Exception {
         SessionData sessionData = AppContext.getSession();
@@ -240,7 +279,9 @@ public class MoneyBillController {
     @RequestMapping("/register")
     public MsgResult register(RegisterReq registerReq)throws Exception{
         MoneyMember moneyMember = BeanConvertUtil.beanConvert(registerReq,MoneyMember.class);
-        EntityWrapper ew = new EntityWrapper<>(moneyMember);
+        MoneyMember tmp = new MoneyMember();
+        tmp.setSn(moneyMember.getSn());
+        EntityWrapper ew = new EntityWrapper<>(tmp);
         ew.notIn("state","4");
 //        sn不能重复
         if(moneyMemberService.selectOne(ew)!=null){
@@ -252,6 +293,30 @@ public class MoneyBillController {
         moneyMember.setCreateTime(DateUtil.getCurrentTimeFull());
         moneyMemberService.insert(moneyMember);
         return new MsgResult("注册成功，并提交审核，请稍后登入");
+    }
+    @RequestMapping("/reRegister")
+    public MsgResult reRegister(RegisterReq registerReq)throws Exception{
+        MoneyMember moneyMember = BeanConvertUtil.beanConvert(registerReq,MoneyMember.class);
+
+//        用户密码校验+用户状态校验
+        MoneyMember moneyMember1 = new MoneyMember();
+        moneyMember1.setSn(moneyMember.getSn());
+        moneyMember1 = moneyMemberService.selectOne(new EntityWrapper<>(moneyMember1));
+        if(moneyMember1==null || !moneyMember1.getPassword().equals(moneyMember.getPassword())){
+            throw new Exception("用户名或者密码错误");
+        }
+        if(moneyMember1.getState().equals("1")|| !moneyMember1.getType().equals("1")){
+            throw new Exception("该用户禁用申诉");
+        }else if(moneyMember1.getState().equals("2")){
+            throw new Exception("该用户排队审核中，禁用申诉");
+        }else if(moneyMember1.getState().equals("4")){
+            throw new Exception("该用户已销户，禁用申诉");
+        }
+        moneyMember.setId(moneyMember1.getId());
+        moneyMember.setState("2");//待审核
+        moneyMember.setVerifyTime("");
+        moneyMemberService.updateById(moneyMember);
+        return new MsgResult("申诉成功，并提交审核，请稍后登入");
     }
     @RequestMapping("/selectMemberByPage")
     public MsgResult selectMemberByPage(PageReq pageReq,VerifySelectReq verifySelectReq)throws Exception{

@@ -77,6 +77,23 @@
     filter:alpha(opacity=100)!important;
     position: relative;
     background: #2fc6ff;
+    animation-name: currentanimation;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+@keyframes currentanimation {
+    0%{
+        font-size: 20px;
+        padding-left: 0px;
+    }
+    50%{
+        font-size: 15px;
+        padding-left: 60px;
+    }
+    100%{
+        font-size: 20px;
+        padding-left: 0px;
+    }
 }
 #IndexMainDiv .aside-nav .current:after {
     position:absolute;

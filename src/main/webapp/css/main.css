@@ -61,3 +61,51 @@
     -o-transition: All 0.4s ease-in-out;
 }
 li[money]{display: none;}
+
+#qrcode .qrcodeimg{
+    animation-name: imgfadeInOut;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+@keyframes imgfadeInOut{
+    0%{
+        opacity: 0;
+    }
+    50%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+#qrcode:hover .qrcodeimg{
+    animation:opacity 1;
+}
+
+#qrcode .qrcodeword{
+    animation-name: wordfadeInOut;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+@keyframes wordfadeInOut{
+    0%{
+        color: #39aef5;
+        /*-moz-transform:rotateY(0deg) rotateX(0deg) rotateZ(0deg) translateZ(0px);*/
+    }
+    25%{
+        color: #0d8ddb;
+        /*-moz-transform:rotateY(90deg) rotateX(90deg) rotateZ(0deg) translateZ(0px);*/
+    }
+    50%{
+        color: #0f6ab4;
+        /*-moz-transform:rotateY(90deg) rotateX(90deg) rotateZ(90deg) translateZ(0px);*/
+    }
+    75%{
+        color: #0d8ddb;
+        /*-moz-transform:rotateY(90deg) rotateX(90deg) rotateZ(0deg) translateZ(0px);*/
+    }
+    100%{
+        color: #39aef5;
+        /*-moz-transform:rotateY(0deg) rotateX(0deg) rotateZ(0deg) translateZ(0px);*/
+    }
+}
